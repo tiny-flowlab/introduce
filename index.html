@@ -4,86 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiny Flowlab - 작은흐름 연구소</title>
+    <title>tiny_flowlab - 작은흐름 연구소</title>
     <meta name="description" content="몰입을 돕는 도구와 서비스를 만드는 개발자, Tiny의 포트폴리오 작은흐름 연구소입니다.">
     <link rel="stylesheet" href="styles.css">
-    <!-- Pretendard Font -->
+    <!-- Fonts -->
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <!-- D2Coding Font (Optional for code) -->
     <link href="https://cdn.jsdelivr.net/gh/joungkyun/font-d2coding/d2coding.css" rel="stylesheet">
 </head>
 
 <body>
-
-    <!-- Header & Navigation -->
+    <!-- Fixed Header -->
     <header id="header">
         <div class="container">
-            <a href="#hero" class="logo">
-                <span class="logo-text">Tiny Flowlab</span>
+            <a href="#source" class="logo">
+                <span class="logo-text">tiny_flowlab</span>
             </a>
             <nav id="nav-menu">
                 <ul>
-                    <li><a href="#about">소개</a></li>
-                    <li><a href="#works">작업</a></li>
-                    <li><a href="#contact">연락처</a></li>
+                    <li><a href="#source">Source</a></li>
+                    <li><a href="#navigator">About</a></li>
+                    <li><a href="#convergence">Works</a></li>
+                    <li><a href="#ocean">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="hero">
-            <div class="container hero-content scroll-reveal visible">
-                <img src="assets/logo_white.png" alt="Tiny Flowlab Logo" class="hero-logo-img">
-                <h1>작은 흐름이 만드는<br>거대한 몰입,<br><span class="highlight">Tiny Flowlab</span></h1>
-                <p class="hero-desc">몰입을 돕는 도구와 서비스를 만드는 개발자, Tiny입니다.</p>
-                <a href="#works" class="btn btn-primary">작업 확인하기</a>
+    <!-- Flow Container -->
+    <div class="flow-container">
+        <!-- Central Flow Line -->
+        <div class="flow-line"></div>
+
+        <!-- Section 1: THE SOURCE (Hero) -->
+        <section class="flow-section" id="source">
+            <div class="flow-node"></div>
+            <div class="flow-content">
+                <span class="flow-label">01. The Source</span>
+                <img src="assets/logo_white.png" alt="tiny_flowlab Logo" class="hero-logo-img">
+                <h1 class="flow-title">작은 흐름이 만드는<br>거대한 몰입</h1>
+                <p class="flow-desc">몰입을 돕는 도구와 서비스를 찾아가는 Tiny입니다.</p>
+                <a href="#convergence" class="btn btn-primary">작업 확인하기</a>
             </div>
         </section>
 
-        <!-- About Me Section -->
-        <section id="about">
-            <div class="container">
-                <h2 class="section-title scroll-reveal">About Me.</h2>
-                <div class="about-content scroll-reveal delay-200">
-                    <div class="terminal-window">
-                        <div class="terminal-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                        </div>
-                        <div class="terminal-body">
-                            <p class="code-line"><span class="cmd">$</span> whoami</p>
-                            <p class="code-output">Name: Tiny</p>
-                            <p class="code-output">Role: Developer</p>
-                            <p class="code-output">Mission: Making tools for deep flow.</p>
-                            <br>
-                            <p class="code-line"><span class="cmd">$</span> cat philosophy.txt</p>
-                            <p class="code-output text-block">
-                                '작은흐름 연구소'는 일상의 작은 루틴과 흐름들이 모여<br>
-                                거대한 몰입의 순간을 만들어낸다고 믿습니다.<br>
-                                사용자에게 자연스러운 몰입 경험을 제공하는<br>
-                                서비스를 연구하고 개발합니다.
-                            </p>
-                        </div>
+        <!-- Section 2: THE NAVIGATOR (About) -->
+        <section class="flow-section" id="navigator">
+            <div class="flow-node"></div>
+            <div class="flow-content">
+                <span class="flow-label">02. The Navigator</span>
+                <h2 class="flow-title">About Me.</h2>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="terminal-body">
+                        <p class="code-line"><span class="cmd">$</span> whoami</p>
+                        <p class="code-output">Name: Tiny</p>
+                        <p class="code-output">Role: Flow Researcher</p>
+                        <p class="code-output">Mission: Exploring the flow of work.</p>
+                        <br>
+                        <p class="code-line"><span class="cmd">$</span> cat philosophy.txt</p>
+                        <p class="code-output text-block">
+                            일상의 작은 루틴과 흐름을 모아,<br>
+                            거대한 몰입으로 이끌어 가는 것을 위해<br>
+                            오늘도 그냥 떠오르는 생각과 작은 호기심을 기반으로<br>
+                            만들고 정리하는 것을 목표로 합니다.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Works/Projects Section -->
-        <section id="works">
-            <div class="container">
-                <h2 class="section-title scroll-reveal">Works.</h2>
-                <div class="projects-grid">
-                    <!-- Project Card 1: resume_search -->
+        <!-- Section 3: CONVERGENCE (Works) -->
+        <section class="flow-section" id="convergence">
+            <div class="flow-node"></div>
+            <div class="flow-content">
+                <span class="flow-label">03. Convergence</span>
+                <h2 class="flow-title">Works.</h2>
+                <p class="flow-desc">흐름들이 모여 만들어낸 결과물들입니다.</p>
+
+                <div class="projects-grid" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Project 1 -->
                     <article class="project-card">
-                        <div class="card-image"
-                            style="background-image: url('assets/thumb_resume.png'); background-size: cover; background-position: center;">
-                            <!-- Image Set via CSS -->
-                        </div>
                         <div class="card-content">
                             <h3>resume_search</h3>
                             <p class="card-desc">이력서 데이터 변환 및 검증 (HR지원)</p>
@@ -93,90 +99,98 @@
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/tiny-flowlab/resume_search" target="_blank"
-                                    class="link-icon" aria-label="GitHub Repository">GitHub</a>
+                                    class="link-icon">GitHub</a>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Project Card 2: wsl2-ai-dev-setup -->
+                    <!-- Project 2 -->
                     <article class="project-card">
-                        <div class="card-image"
-                            style="background-image: url('assets/thumb_wsl2.png'); background-size: cover; background-position: center;">
-                            <!-- Image Set via CSS -->
-                        </div>
                         <div class="card-content">
                             <h3>wsl2-ai-dev-setup</h3>
-                            <p class="card-desc">WSL2 환경에서의 AI 개발 환경 구축 가이드 및 스크립트</p>
+                            <p class="card-desc">WSL2 환경에서의 AI 개발 환경 구축 가이드</p>
                             <div class="tech-stack">
                                 <span class="tag">Shell</span>
                                 <span class="tag">WSL2</span>
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" target="_blank"
-                                    class="link-icon" aria-label="GitHub Repository">GitHub</a>
+                                    class="link-icon">GitHub</a>
                             </div>
                         </div>
                     </article>
 
-                    <!-- Project Card 3: tiny-flowlab.github.io -->
+                    <!-- Project 3 -->
                     <article class="project-card">
-                        <div class="card-image"
-                            style="background-image: url('assets/thumb_tinyloop.png'); background-size: cover; background-position: center;">
-                            <!-- Image Set via CSS -->
-                        </div>
                         <div class="card-content">
                             <h3>tiny-flowlab.github.io</h3>
-                            <p class="card-desc">tiny.is-an.ai 사이트와 연결하여 정보를 나누기 위한 정적 페이지 프로젝트</p>
+                            <p class="card-desc">정보 공유를 위한 정적 페이지 프로젝트</p>
                             <div class="tech-stack">
                                 <span class="tag">HTML</span>
                                 <span class="tag">Static</span>
                             </div>
                             <div class="card-links">
                                 <a href="https://github.com/tiny-flowlab/tiny-flowlab.github.io" target="_blank"
-                                    class="link-icon" aria-label="GitHub Repository">GitHub</a>
+                                    class="link-icon">GitHub</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4 -->
+                    <article class="project-card">
+                        <div class="card-content">
+                            <h3>ai-timeline-2025</h3>
+                            <p class="card-desc">2025년 AI 기술 타임라인 정리</p>
+                            <div class="tech-stack">
+                                <span class="tag">HTML</span>
+                                <span class="tag">AI</span>
+                            </div>
+                            <div class="card-links">
+                                <a href="https://flowlab.tinypia.com/ai-timeline-2025" target="_blank"
+                                    class="link-icon">Demo</a>
+                                <a href="https://github.com/tiny-flowlab/ai-timeline-2025" target="_blank"
+                                    class="link-icon">GitHub</a>
                             </div>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container footer-content">
-            <!-- Brand Logo (Color) Display -->
-            <div class="brand-logo-container"
-                style="background-color: #fff; padding: 20px; border-radius: 12px; display: inline-block; margin-bottom: 30px;">
-                <img src="assets/logo_color.png" alt="Tiny Flowlab Color Logo" style="height: 60px; width: auto;">
-            </div>
+        <!-- Section 4: THE OCEAN (Contact) -->
+        <section class="flow-section" id="ocean">
+            <div class="flow-node"></div>
+            <div class="flow-content">
+                <span class="flow-label">04. The Ocean</span>
+                <h2 class="flow-title">Let's Make Waves.</h2>
+                <p class="flow-desc">새로운 흐름을 함께 만들고 싶다면 연락주세요.</p>
 
-            <div class="contact-info">
-                <h2>Contact.</h2>
-                <p>새로운 흐름을 함께 만들고 싶다면 연락주세요.</p>
-                <a href="mailto:flowlab@tinypia.com" class="email-link">flowlab@tinypia.com</a>
-            </div>
-            <div class="social-links">
-                <a href="https://github.com/tiny-flowlab" target="_blank" class="social-icon">GitHub</a>
-                <a href="https://linkedin.com" target="_blank" class="social-icon">LinkedIn</a>
-                <a href="https://blog.tinyflowlab.com" target="_blank" class="social-icon">Blog</a>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Tiny Flowlab (Tiny). All rights reserved.
-            </div>
-        </div>
-    </footer>
+                <a href="mailto:flowlab@tinypia.com" class="email-link"
+                    style="display: block; margin-bottom: 2rem;">flowlab@tinypia.com</a>
 
+                <div class="social-links" style="justify-content: flex-start; margin-bottom: 2rem;">
+                    <a href="https://github.com/tiny-flowlab" target="_blank" class="social-icon">GitHub</a>
+                    <a href="#" onclick="alert('준비중입니다.'); return false;" class="social-icon">LinkedIn</a>
+                    <a href="#" onclick="alert('준비중입니다.'); return false;" class="social-icon">Blog</a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2024 tiny_flowlab. All rights reserved.
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Flow Animation Script -->
     <script>
-        // Scroll Reveal Animation
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold: 0.2
             };
 
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
@@ -184,14 +198,8 @@
                 });
             }, observerOptions);
 
-            const elements = document.querySelectorAll('.scroll-reveal, .project-card, .terminal-window');
-            elements.forEach((el, index) => {
-                el.classList.add('scroll-reveal');
-                // Optional: Stagger project cards if they don't have explicit delay classes
-                if (el.classList.contains('project-card')) {
-                    el.style.transitionDelay = `${(index % 3) * 0.1}s`;
-                }
-                observer.observe(el);
+            document.querySelectorAll('.flow-section').forEach(section => {
+                observer.observe(section);
             });
         });
     </script>

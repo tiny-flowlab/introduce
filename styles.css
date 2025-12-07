@@ -1,17 +1,21 @@
 /* Global Reset & Variables */
 :root {
-    --bg-color: #0A1128;
-    --bg-secondary: #152238;
+    --bg-color: #050A19;
+    /* Deep Premium Navy */
+    --bg-secondary: #0A1128;
     --text-primary: #EAEAEA;
     --text-heading: #FFFFFF;
-    --accent-color: #00BFFF;
-    --accent-hover: #009ACD;
+    --accent-color: #4A90D9;
+    /* Deep Sky Blue */
+    --accent-hover: #3A7BC8;
 
-    /* New Premium Assets */
+    /* Glass Effects */
     --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    --neon-glow: 0 0 15px rgba(0, 191, 255, 0.4);
+    --glass-border: rgba(74, 144, 217, 0.15);
+    /* Blue tint */
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    --neon-glow: 0 0 15px rgba(74, 144, 217, 0.4);
+    /* Blue glow */
 
     --font-main: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-code: 'D2Coding', 'Fira Code', monospace;
@@ -172,9 +176,9 @@ header .container {
 }
 
 .hero-logo-img {
-    max-width: 500px;
-    /* Increased for overwhelming impact */
-    width: 90%;
+    max-width: 800px;
+    /* 2x larger */
+    width: 100%;
     margin-bottom: 3rem;
     animation: float 4s ease-in-out infinite;
     filter: drop-shadow(0 0 30px rgba(0, 191, 255, 0.2));
@@ -485,4 +489,166 @@ header .container {
 
 .delay-300 {
     transition-delay: 0.3s;
+}
+
+/* ===== FLOW LAYOUT SYSTEM ===== */
+
+/* Container wraps the narrative flow */
+.flow-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 30px;
+    padding-top: calc(var(--header-height) + 40px);
+}
+
+/* The central vertical line */
+.flow-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 107, 107, 0.3), transparent);
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+/* Glowing "current position" indicator */
+.flow-line::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 80px;
+    background: var(--accent-color);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px var(--accent-color);
+    border-radius: 2px;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+/* Flow section node dots */
+.flow-node {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    background: var(--bg-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-color);
+    z-index: 3;
+    transition: background 0.3s ease;
+}
+
+/* Each narrative section */
+.flow-section {
+    position: relative;
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    padding: 60px 0;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Alternating layout: odd sections on LEFT */
+.flow-section:nth-child(odd) .flow-content {
+    margin-right: auto;
+    padding-right: 60px;
+    text-align: left;
+}
+
+/* Even sections on RIGHT */
+.flow-section:nth-child(even) .flow-content {
+    margin-left: auto;
+    padding-left: 60px;
+    text-align: left;
+}
+
+.flow-content {
+    max-width: 45%;
+    transform: translateY(30px);
+    transition: transform 0.8s ease;
+}
+
+.flow-section.visible {
+    opacity: 1;
+}
+
+.flow-section.visible .flow-content {
+    transform: translateY(0);
+}
+
+.flow-section.visible .flow-node {
+    background: var(--accent-color);
+}
+
+/* Flow typography */
+.flow-label {
+    font-family: var(--font-code);
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: block;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.flow-title {
+    font-size: 2.8rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--text-heading);
+}
+
+.flow-desc {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+/* ===== FLOW MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+    .flow-container {
+        padding: 0 20px;
+        padding-top: calc(var(--header-height) + 20px);
+    }
+
+    .flow-line {
+        left: 25px;
+    }
+
+    .flow-line::after {
+        left: 25px;
+    }
+
+    .flow-node {
+        left: 25px;
+    }
+
+    .flow-section:nth-child(odd) .flow-content,
+    .flow-section:nth-child(even) .flow-content {
+        max-width: 100%;
+        margin-left: 50px;
+        padding-right: 0;
+        padding-left: 0;
+        text-align: left;
+    }
+
+    .flow-title {
+        font-size: 2rem;
+    }
+
+    .flow-section {
+        min-height: auto;
+        padding: 40px 0;
+    }
 }
