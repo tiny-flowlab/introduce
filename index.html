@@ -55,7 +55,7 @@ section{min-height:100vh;position:relative}
 .hero-glow-2{bottom:-200px;left:-100px;background:#1a3a6b}
 .hero-content{position:relative;z-index:1;text-align:center;max-width:800px}
 .hero-logo{margin-bottom:2rem}
-.hero-logo img{height:64px;opacity:.95;filter:drop-shadow(0 0 25px rgba(255,255,255,.1));transition:all .4s}
+.hero-logo img{height:88px;opacity:.95;filter:drop-shadow(0 0 25px rgba(255,255,255,.1));transition:all .4s}
 .hero-logo img:hover{filter:drop-shadow(0 0 35px rgba(255,255,255,.15));transform:scale(1.03)}
 .hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);padding:.4rem 1rem;border-radius:100px;margin-bottom:2.5rem;background:rgba(255,255,255,.04)}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
@@ -153,14 +153,33 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
 @media(max-width:768px){
   nav{padding:1rem 1.5rem}
   nav.scrolled{padding:.7rem 1.5rem}
-  .nav-right{gap:1.2rem}
-  .nav-links{gap:1.2rem}
+  .nav-right{gap:1rem}
+  .nav-links{gap:1rem}
   .nav-links a{font-size:.6rem}
   section{padding-left:1.5rem!important;padding-right:1.5rem!important}
+  #navigator{padding:5rem 1.5rem}
+  #convergence{padding:5rem 1.5rem}
+  #ocean{padding:5rem 1.5rem;min-height:auto}
   .works-grid{grid-template-columns:1fr}
   .hero-title{font-size:2rem}
-  .hero-logo img{height:48px}
+  .hero-sub{font-size:.95rem}
+  .hero-logo img{height:68px}
   .nav-logo-img{height:18px}
+  .terminal-body{padding:1.25rem;font-size:.78rem}
+  footer{padding:1.5rem}
+}
+
+@media(max-width:480px){
+  .nav-links{display:none}
+  .nav-right{gap:.75rem}
+  #source{padding:5rem 1.25rem 3rem}
+  .hero-title{font-size:1.75rem}
+  .hero-sub{font-size:.9rem;line-height:1.7}
+  .hero-badge{font-size:.62rem}
+  .hero-logo img{height:60px}
+  .work-card{padding:1.5rem}
+  .contact-email{padding:.75rem 1.25rem;font-size:.85rem}
+  footer{padding:1.25rem}
 }
 </style>
 </head>
