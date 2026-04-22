@@ -131,6 +131,7 @@ section{min-height:100vh;position:relative}
 .tag-nextjs{color:#8fccb8;border-color:rgba(143,204,184,.2);background:rgba(143,204,184,.05)}
 .card-lock{display:flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.65rem;color:var(--text-faint);letter-spacing:.06em}
 .card-lock svg{width:11px;height:11px;stroke:var(--text-faint);fill:none;stroke-width:2;flex-shrink:0}
+.card-date{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);margin-top:.6rem;letter-spacing:.04em}
 
 #ocean{padding:8rem 3rem;display:flex;align-items:center;justify-content:center;min-height:70vh}
 .contact-container{max-width:700px;width:100%;text-align:center}
@@ -306,7 +307,19 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
     </div>
     <div class="works-grid">
 
-      <div class="work-card reveal reveal-delay-1">
+      <div class="work-card reveal reveal-delay-1" style="grid-column:1/-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+        </div>
+        <h3 class="card-title">tiny_brain</h3>
+        <p class="card-desc" data-lang="ko">개인 지식 아카이브와 인사이트 발행을 자동화하는 AI 통합 파이프라인 시스템. 다양한 소스에서 정보를 수집·분석·구조화하여 Flowlab 커뮤니티로 발행하는 흐름을 하나로 연결한다.</p>
+        <p class="card-desc" data-lang="en">An integrated AI pipeline system automating personal knowledge archiving and insight publishing. Connects collection, analysis, and distribution into a single continuous flow toward the Flowlab community.</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.04.21</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-2">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
           <div class="card-links"><a href="https://github.com/tiny-flowlab/resume_search" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
@@ -315,9 +328,10 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">이력서 데이터 변환 및 검증 (HR지원)</p>
         <p class="card-desc" data-lang="en">Resume data transformation &amp; validation for HR</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-data">Data</span></div>
+        <div class="card-date">Updated 2025.10.24</div>
       </div>
 
-      <div class="work-card reveal reveal-delay-2">
+      <div class="work-card reveal reveal-delay-3">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
           <div class="card-links"><a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
@@ -326,9 +340,10 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">WSL2 환경에서의 AI 개발 환경 구축 가이드</p>
         <p class="card-desc" data-lang="en">AI dev environment setup guide on WSL2</p>
         <div class="card-tags"><span class="tag tag-shell">Shell</span><span class="tag tag-wsl">WSL2</span></div>
+        <div class="card-date">Updated 2026.02.28</div>
       </div>
 
-      <div class="work-card reveal reveal-delay-3">
+      <div class="work-card reveal reveal-delay-4">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
           <div class="card-links">
@@ -340,9 +355,10 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">2025년 AI 기술 타임라인 정리</p>
         <p class="card-desc" data-lang="en">2025 AI technology timeline overview</p>
         <div class="card-tags"><span class="tag tag-html">HTML</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2025.12.07</div>
       </div>
 
-      <div class="work-card reveal reveal-delay-4">
+      <div class="work-card reveal reveal-delay-1">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
           <div class="card-links"><a href="https://github.com/tiny-flowlab/novel-studio-copilot-cli" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
@@ -351,28 +367,19 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">GitHub Copilot CLI 기반 AI 멀티에이전트 소설 창작 시스템</p>
         <p class="card-desc" data-lang="en">AI multi-agent novel creation system for GitHub Copilot CLI</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2026.02.15</div>
       </div>
 
-      <div class="work-card reveal reveal-delay-1">
+      <div class="work-card reveal reveal-delay-2">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <div class="card-links"><a href="https://github.com/tiny-flowlab/chatbot-io-server" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
         </div>
         <h3 class="card-title">chatbot-io-server</h3>
-        <p class="card-desc" data-lang="ko">모바일 메신저 메시지 수신·처리·자동응답 미들웨어 서버</p>
-        <p class="card-desc" data-lang="en">Mobile messenger message processing &amp; auto-reply middleware</p>
+        <p class="card-desc" data-lang="ko">메신저 봇 미들웨어 서버 — 메시지 수신·자동응답·관리자 WebUI</p>
+        <p class="card-desc" data-lang="en">Messenger bot middleware — message handling, auto-reply &amp; admin WebUI</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span></div>
-      </div>
-
-      <div class="work-card reveal reveal-delay-2">
-        <div class="card-top">
-          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
-        </div>
-        <h3 class="card-title">chatbot-server-kakaotalk</h3>
-        <p class="card-desc" data-lang="ko">카카오톡 메시지 수신·처리·자동응답 미들웨어 서버 (내부 운영 버전)</p>
-        <p class="card-desc" data-lang="en">KakaoTalk message processing &amp; auto-reply middleware (internal edition)</p>
-        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.03.25</div>
       </div>
 
       <div class="work-card reveal reveal-delay-3">
@@ -381,9 +388,10 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
           <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
         </div>
         <h3 class="card-title">find_insight_writer</h3>
-        <p class="card-desc" data-lang="ko">대화 로그 분석 → 인사이트 추출 → Flowlab 자동 발행 파이프라인</p>
-        <p class="card-desc" data-lang="en">Chat log analysis → insight extraction → Flowlab auto-publishing pipeline</p>
+        <p class="card-desc" data-lang="ko">다양한 소스에서 인사이트를 추출하고 Flowlab에 자동 발행하는 AI 파이프라인</p>
+        <p class="card-desc" data-lang="en">AI pipeline that extracts insights from multiple sources and auto-publishes to Flowlab</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.04.21</div>
       </div>
 
       <div class="work-card reveal reveal-delay-4">
@@ -395,6 +403,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">AI 커뮤니티 플랫폼 — 게시판·댓글·RSVP·큐레이션 풀스택 앱</p>
         <p class="card-desc" data-lang="en">AI community platform — boards, comments, RSVP &amp; curation full-stack app</p>
         <div class="card-tags"><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.04.16</div>
       </div>
 
       <div class="work-card reveal reveal-delay-1">
@@ -406,6 +415,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">tiny_brain 전체 파이프라인 상태 시각화 모니터링 대시보드</p>
         <p class="card-desc" data-lang="en">Monitoring dashboard for the tiny_brain pipeline architecture</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.04.15</div>
       </div>
 
     </div>
