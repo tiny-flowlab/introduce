@@ -149,6 +149,8 @@ h2 .kr,.kr{font-family:var(--kr)}
 .shot-meta em{display:block;font-style:normal;font-family:var(--kr);font-size:.74rem;color:var(--text-dim);margin-top:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mock-note{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.06em;margin-top:1rem;text-align:right}
 
+.studio-shot{display:block;width:100%;height:auto}
+.studio .mock-note{padding:.7rem 1rem;margin:0;border-top:1px solid var(--border)}
 /* CTA */
 .cta{text-align:center}
 .cta .lead{margin:0 auto 2.2rem}
@@ -358,39 +360,11 @@ footer a:hover{color:var(--text)}
     <p class="lead" data-lang="ko">브리프, 스토리보드, 샷, 검수를 한 작업 공간에서 관리합니다.</p>
     <p class="lead" data-lang="en">Manage briefs, storyboards, shots and review in a single workspace.</p>
 
-    <div class="studio reveal">
+    <figure class="studio reveal">
       <div class="studio-bar"><i></i><i></i><i></i><span>shot_Flow Studio</span></div>
-      <div class="studio-body">
-        <div class="side">
-          <div class="side-h">Workspace</div>
-          <a href="#studio">Briefs</a>
-          <a href="#studio" class="on">Storyboard</a>
-          <a href="#studio">Shots</a>
-          <a href="#studio">Review</a>
-          <div class="side-h">Library</div>
-          <a href="#studio">Talent</a>
-          <a href="#studio">Products</a>
-          <a href="#studio">Styles</a>
-        </div>
-        <div class="main">
-          <div class="main-head">
-            <div>
-              <h4>Spring Daily Bag — Lookbook</h4>
-              <small>6 SHOTS · 2 SCENES</small>
-            </div>
-            <div class="pills"><span class="pill ok">Consistency ✓</span><span class="pill">Draft v3</span></div>
-          </div>
-          <div class="board">
-            <div class="shot"><div class="frame f1"><i></i></div><div class="shot-meta"><b>01 · WIDE</b><em data-lang="ko">출근길 횡단보도</em><em data-lang="en">Morning crosswalk</em></div></div>
-            <div class="shot"><div class="frame f3"><i></i></div><div class="shot-meta"><b>02 · MEDIUM</b><em data-lang="ko">카페 창가, 가방 클로즈업</em><em data-lang="en">Café window, bag close-up</em></div></div>
-            <div class="shot"><div class="frame f2"><i></i></div><div class="shot-meta"><b>03 · SELFIE</b><em data-lang="ko">엘리베이터 거울</em><em data-lang="en">Elevator mirror</em></div></div>
-            <div class="shot"><div class="frame f6"><i></i></div><div class="shot-meta"><b>04 · FULL</b><em data-lang="ko">주말 공원 피크닉</em><em data-lang="en">Weekend park picnic</em></div></div>
-          </div>
-          <div class="mock-note" data-lang="ko">* 예시 화면입니다</div>
-          <div class="mock-note" data-lang="en">* Illustrative mockup</div>
-        </div>
-      </div>
-    </div>
+      <img class="studio-shot" src="../assets/shotflow-demo.jpg" width="2400" height="1290" loading="lazy" decoding="async" alt="shot_Flow Studio 예시 화면: 봄 데일리 백 룩북 캠페인의 6개 샷 갤러리와 샷 상세 평가 패널 / Illustrative shot_Flow Studio screen with a six-shot lookbook gallery and shot evaluation panel">
+      <figcaption class="mock-note"><span data-lang="ko">* 예시 화면입니다. 이미지는 데모용으로 생성한 가상 모델입니다.</span><span data-lang="en">* Illustrative mockup. Images show AI-generated fictional models for demo purposes.</span></figcaption>
+    </figure>
   </div>
 </section>
 

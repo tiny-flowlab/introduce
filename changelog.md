@@ -4,6 +4,12 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.3] — 2026-10-08
+### Changed
+- shot_Flow 랜딩 Studio 섹션: CSS 자리표시 목업을 데모 스크린샷(`assets/shotflow-demo.jpg`)으로 교체 — 실제 하네스 화면은 내부 구조·페르소나가 드러나 쓸 수 없어, 순수 목업 UI에 Nano Banana 2.1로 생성한 다양한 가상 모델 룩북 6컷(같은 가방)을 넣어 일관성 기능을 보여줌. "예시 화면·가상 모델" 표기 유지
+
+---
+
 ## [2.2] — 2026-10-08
 ### Added
 - About 아래 `Agents / 05 running` 블록 — 연구소에서 돌리는 에이전트(Hermes·Grok Bot·Muse·Dots·Hark)와 각자 맡은 일, 로컬 LLM(llama.cpp) 테스트 병행을 소개
