@@ -11,6 +11,9 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
   - Contact: GitHub만 유지 (V1의 LinkedIn·X는 빈 링크였음)
 - V1은 git 태그 `v1` + `/v1/` 경로로 보존
 - shot_Flow 랜딩에서 Google TPU Builder Program 배지 제거 (About에는 유지)
+- shot_Flow 랜딩을 V2 톤(색·폰트 토큰, Hero 물결 라인)으로 맞춤 — 홈→랜딩 이동 시 톤이 끊기지 않도록
+### Added
+- 파비콘·apple-touch-icon (CI 아이콘 부분), OG/Twitter 메타 + 공유 이미지 2장(`og-home.png`, `og-shotflow.png`) — 메신저·SNS에 링크 공유 시 미리보기 표시
 
 ---
 
