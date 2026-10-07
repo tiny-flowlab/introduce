@@ -4,6 +4,15 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.1] — 2026-10-08
+### Added
+- `tiny_brain/index.html` 랜딩 (/tiny_brain/) — 비전, 설계 철학 6원칙, 수집→구조화→검토→발행 흐름과 공통 상태 언어, 구성 프로젝트, 현재 상태. 사용자 승인 범위(흐름+구성 프로젝트)만 공개하고 포트·IP·페르소나·내부 결정 번호·수집 채널 실명은 제외
+- 공유 이미지 `og-tinybrain.png`
+### Changed
+- 홈 Works: tiny_brain 패널을 랜딩으로 연결하고, 하위 프로젝트 3개(find_insight_writer, flowlab_community, status-dashboard) 행을 랜딩으로 흡수 — 홈은 대표 패널 2개 + Lab 목록 6개로 간결화
+
+---
+
 ## [2.0] — 2026-10-08
 ### Changed
 - 홈페이지 V2: "Deep Flow" 디자인으로 전면 교체 (인디고 블랙 + 물결 라인 + 시안·바이올렛). V1 네이비 개발자 템플릿에서 벗어나 "흐름" 정체성을 시각화. 다크 시안 3개 중 사용자 선택

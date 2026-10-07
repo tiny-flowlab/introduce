@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tiny_brain — tiny_flowlab</title>
+  <meta name="description" content="tiny_brain: Tiny의 세컨드브레인 관제탑 — 대화와 북마크를 수집·구조화하고, 사람의 검토를 거쳐 공유하는 개인 지식 파이프라인.">
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="tiny_flowlab">
+  <meta property="og:title" content="tiny_brain — 세컨드브레인 관제탑">
+  <meta property="og:description" content="tiny_brain: Tiny의 세컨드브레인 관제탑 — 대화와 북마크를 수집·구조화하고, 사람의 검토를 거쳐 공유하는 개인 지식 파이프라인.">
+  <meta property="og:url" content="https://tiny-flowlab.com/tiny_brain/">
+  <meta property="og:image" content="https://tiny-flowlab.com/assets/og-tinybrain.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="tiny_brain — 세컨드브레인 관제탑">
+  <meta name="twitter:description" content="tiny_brain: Tiny의 세컨드브레인 관제탑 — 대화와 북마크를 수집·구조화하고, 사람의 검토를 거쳐 공유하는 개인 지식 파이프라인.">
+  <meta name="twitter:image" content="https://tiny-flowlab.com/assets/og-tinybrain.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#07080f;--bg2:#10121d;--bg3:#0c0e17;
+--accent:#ffffff;--accent2:#71e5e2;--accent3:#b5a2ff;
+--text:#f2f3fa;--text-dim:#b8bdcd;--text-faint:#9299ad;
+--mono:'Manrope','Noto Sans KR',sans-serif;
+--sans:'Manrope','Noto Sans KR',sans-serif;
+--kr:'Noto Sans KR',sans-serif;
+--border:rgba(230,235,255,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:var(--bg)}
+a{color:inherit}
+html[lang="ko"] [data-lang="en"],html[lang="en"] [data-lang="ko"]{display:none!important}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(7,8,15,.72);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.brand-name{font-family:var(--mono);font-size:.9rem;font-weight:600;letter-spacing:.06em}
+.brand-name b{color:var(--accent2);font-weight:600}
+.brand-by{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.08em;border-left:1px solid var(--border);padding-left:.75rem}
+.nav-right{display:flex;align-items:center;gap:2rem}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{font-family:var(--mono);font-size:.72rem;color:var(--text-dim);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--accent)}
+.lang-toggle{display:flex;border:1px solid var(--border);border-radius:100px;overflow:hidden;background:rgba(255,255,255,.02)}
+.lang-btn{font-family:var(--mono);font-size:.65rem;padding:.35rem .7rem;color:var(--text-faint);background:transparent;border:none;cursor:pointer;letter-spacing:.06em}
+.lang-btn.active{color:#fff;background:rgba(255,255,255,.1)}
+
+/* COMMON */
+section{padding:7rem 3rem}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.7rem;color:var(--accent2);letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.1rem}
+h2{font-family:var(--sans);font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:1rem}
+h2 .kr,.kr{font-family:var(--kr)}
+.lead{font-family:var(--kr);color:var(--text-dim);font-size:1rem;line-height:1.85;max-width:620px;font-weight:300}
+
+/* HERO */
+.hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding-top:8rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 48% 53% at 83% 35%,rgba(47,117,145,.18),transparent 72%),
+  radial-gradient(ellipse 34% 39% at 72% 56%,rgba(103,76,173,.14),transparent 76%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:4rem;align-items:center;position:relative}
+.badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem}
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.18);padding:.4rem .9rem;border-radius:100px;background:rgba(255,255,255,.04)}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:#7acca8;box-shadow:0 0 10px #7acca8}
+.hero h1{font-family:var(--kr);font-size:clamp(2.3rem,4.6vw,3.6rem);font-weight:700;line-height:1.2;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero h1 .hl{background:linear-gradient(90deg,var(--accent2),var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin-bottom:2.5rem}
+.ctas{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;padding:.85rem 1.6rem;border-radius:8px;text-decoration:none;transition:all .3s}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.12)}
+.btn-ghost{border:1px solid var(--border);color:var(--text-dim)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+
+.flow-lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.6;z-index:0}
+.flow-lines .drift-a{animation:drift-a 26s ease-in-out infinite alternate}
+.flow-lines .drift-b{animation:drift-b 32s ease-in-out infinite alternate}
+@keyframes drift-a{from{transform:translate3d(-1.1%,-5px,0)}to{transform:translate3d(1.1%,8px,0)}}
+@keyframes drift-b{from{transform:translate3d(1%,6px,0);opacity:.65}to{transform:translate3d(-1%,-7px,0);opacity:.95}}
+/* hero visual */
+.visual{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.brief{border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;background:rgba(255,255,255,.02);margin-bottom:1rem}
+.brief-label{font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+.brief-text{font-family:var(--kr);font-size:.88rem;color:var(--text);line-height:1.6}
+.brief-text .caret{display:inline-block;width:2px;height:1em;background:var(--accent2);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.flow-arrow{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.12em;margin:.2rem 0 1rem;text-transform:uppercase}
+.flow-arrow::before,.flow-arrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(113,229,226,.4),transparent)}
+.frames{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.frame{aspect-ratio:4/5;border-radius:8px;position:relative;overflow:hidden;border:1px solid var(--border)}
+.frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(5,10,20,.75))}
+.frame span{position:absolute;left:.55rem;bottom:.45rem;z-index:1;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:rgba(255,255,255,.85)}
+.f1{background:linear-gradient(160deg,#2b4a6f,#152238 60%,#0f1a2c)}
+.f2{background:linear-gradient(200deg,#5a4a7a,#1d2340 65%)}
+.f3{background:linear-gradient(140deg,#3c6a74,#14263a 70%)}
+.f4{background:linear-gradient(180deg,#6b5a4a,#1a2235 70%)}
+.f5{background:linear-gradient(120deg,#2f3f6a,#3a2a52 55%,#121a2c)}
+.f6{background:linear-gradient(210deg,#476a5a,#132235 65%)}
+.frame i{position:absolute;left:50%;top:38%;width:34%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.12);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.frame i::after{content:'';position:absolute;left:50%;top:115%;width:170%;height:120%;transform:translateX(-50%);border-radius:50% 50% 0 0;background:rgba(255,255,255,.08)}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3.5rem;counter-reset:s}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.3rem;position:relative;transition:all .35s}
+.step:hover{border-color:rgba(113,229,226,.3);transform:translateY(-4px)}
+.step-num{font-family:var(--mono);font-size:.68rem;color:var(--accent2);letter-spacing:.12em;margin-bottom:1.2rem}
+.step h3{font-family:var(--sans);font-size:1.05rem;font-weight:600;margin-bottom:.55rem}
+.step p{font-family:var(--kr);font-size:.84rem;color:var(--text-dim);line-height:1.7;font-weight:300}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-.85rem;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.8rem;color:var(--text-faint);z-index:1}
+
+/* FEATURES */
+.alt{background:linear-gradient(180deg,var(--bg),var(--bg3) 50%,var(--bg))}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:3.5rem}
+.feature{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;gap:1.3rem}
+.f-icon{flex:none;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(113,229,226,.08);border:1px solid rgba(113,229,226,.18)}
+.f-icon svg{width:20px;height:20px;stroke:var(--accent2);fill:none;stroke-width:1.6}
+.feature h3{font-family:var(--sans);font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.feature p{font-family:var(--kr);font-size:.9rem;color:var(--text-dim);line-height:1.75;font-weight:300}
+
+/* STUDIO MOCK */
+.studio{margin-top:3.5rem;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--bg2);box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.studio-bar{display:flex;align-items:center;gap:.5rem;padding:.8rem 1rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.studio-bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12)}
+.studio-bar span{margin-left:.8rem;font-family:var(--mono);font-size:.66rem;color:var(--text-faint);letter-spacing:.06em}
+.studio-body{display:grid;grid-template-columns:200px 1fr}
+.side{border-right:1px solid var(--border);padding:1.2rem .8rem;display:flex;flex-direction:column;gap:.2rem}
+.side-h{font-family:var(--mono);font-size:.58rem;color:var(--text-faint);letter-spacing:.14em;text-transform:uppercase;padding:.8rem .7rem .4rem}
+.side a{font-family:var(--sans);font-size:.82rem;color:var(--text-dim);text-decoration:none;padding:.5rem .7rem;border-radius:7px}
+.side a.on{background:rgba(113,229,226,.1);color:var(--text)}
+.main{padding:1.5rem}
+.main-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.main-head h4{font-family:var(--sans);font-size:1.1rem;font-weight:600}
+.main-head small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.08em;margin-top:.3rem}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:.6rem;padding:.3rem .65rem;border-radius:100px;border:1px solid var(--border);color:var(--text-dim)}
+.pill.ok{color:#7acca8;border-color:rgba(122,204,168,.25)}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.shot{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.015)}
+.shot .frame{aspect-ratio:4/3;border:none;border-radius:0}
+.shot-meta{padding:.6rem .7rem}
+.shot-meta b{display:block;font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.1em;font-weight:500}
+.shot-meta em{display:block;font-style:normal;font-family:var(--kr);font-size:.74rem;color:var(--text-dim);margin-top:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock-note{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.06em;margin-top:1rem;text-align:right}
+
+/* CTA */
+.cta{text-align:center}
+.cta .lead{margin:0 auto 2.2rem}
+.cta .ctas{justify-content:center}
+footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--mono);font-size:.68rem;color:var(--text-faint);letter-spacing:.06em}
+footer a{text-decoration:none;color:var(--text-dim)}
+footer a:hover{color:var(--text)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr;gap:3rem}
+  .steps{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .board{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px){
+  nav{padding:1rem 1rem}
+  .nav-links,.brand-by{display:none}
+  section{padding:5rem 1rem}
+  .hero{padding-top:6.5rem;min-height:auto}
+  .features{grid-template-columns:1fr}
+  .feature{padding:1.5rem}
+  .studio-body{grid-template-columns:1fr}
+  .side{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border);padding:.6rem}
+  .side-h{display:none}
+  .side a{white-space:nowrap}
+  .main{padding:1rem}
+  footer{padding:1.5rem 1rem}
+}
+@media (max-width:480px){
+  .steps{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.flow-lines g{animation:none}.reveal{opacity:1;transform:none;transition:none}.brief-text .caret{animation:none}}
+
+/* tiny_brain additions */
+h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break-word}
+.quote{font-family:var(--kr);font-size:clamp(1.05rem,1.8vw,1.25rem);color:var(--text);line-height:1.8;border-left:2px solid var(--accent2);padding:.2rem 0 .2rem 1.2rem;margin:0 0 2.4rem;max-width:620px;font-weight:500}
+.hero-panel{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.6rem;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.hp-label{font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-bottom:1rem}
+.hp-row{display:flex;align-items:center;gap:.8rem;padding:.75rem 0;border-top:1px solid var(--border)}
+.hp-row:first-of-type{border-top:none}
+.hp-dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--accent2);box-shadow:0 0 10px rgba(113,229,226,.6)}
+.hp-dot.plan{background:transparent;border:1px solid var(--text-faint);box-shadow:none}
+.hp-dot.wip{background:var(--accent3);box-shadow:0 0 10px rgba(181,162,255,.5)}
+.hp-name{font-weight:700;font-size:.92rem;min-width:5.5rem}
+.hp-desc{font-family:var(--kr);font-size:.84rem;color:var(--text-dim);flex:1}
+.hp-state{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.08em;color:var(--accent2);white-space:nowrap}
+.hp-state.plan{color:var(--text-faint)}.hp-state.wip{color:var(--accent3)}
+.problem{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.problem ul{list-style:none;display:grid;gap:.8rem}
+.problem li{font-family:var(--kr);color:var(--text-dim);line-height:1.7;padding-left:1.4rem;position:relative}
+.problem li::before{content:'';position:absolute;left:0;top:.7em;width:.6rem;height:1px;background:var(--accent2)}
+.problem li b{color:var(--text);font-weight:600}
+.states{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:2.5rem}
+.state{font-family:var(--mono);font-size:.72rem;font-weight:700;padding:.45rem .85rem;border-radius:100px;border:1px solid var(--border);color:var(--text-dim);background:rgba(255,255,255,.02)}
+.state.human{border-color:rgba(181,162,255,.45);color:var(--accent3)}
+.state.out{border-color:rgba(113,229,226,.45);color:var(--accent2)}
+.state-arrow{color:var(--text-faint);font-size:.8rem}
+.state-note{font-family:var(--kr);font-size:.82rem;color:var(--text-faint);margin-top:1rem}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+.principle{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.6rem}
+.principle .num{font-family:var(--mono);font-weight:700;font-size:.66rem;color:var(--accent2);letter-spacing:.12em;margin-bottom:.9rem}
+.principle h3{font-size:1.02rem;font-weight:700;margin-bottom:.5rem}
+.principle p{font-family:var(--kr);font-size:.86rem;color:var(--text-dim);line-height:1.7;font-weight:300}
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:3rem}
+.project{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.8rem;display:flex;flex-direction:column;gap:.7rem}
+.project-top{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.project-role{font-family:var(--mono);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
+.project-status{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.06em}
+.project h3{font-size:1.15rem;font-weight:700}
+.project p{font-family:var(--kr);font-size:.9rem;color:var(--text-dim);line-height:1.7;font-weight:300}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto;padding-top:.4rem}
+.chip{font-size:.66rem;font-weight:600;padding:.25rem .6rem;border-radius:6px;border:1px solid var(--border);color:var(--text-dim)}
+.project-date{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.06em}
+.status-box{display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;align-items:start;margin-top:2.5rem}
+.status-big{font-family:var(--kr);font-size:clamp(1.3rem,2.4vw,1.75rem);font-weight:700;line-height:1.45}
+.status-big .hl{background:linear-gradient(90deg,var(--accent2),var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.next{list-style:none;display:grid;gap:.7rem}
+.next li{font-family:var(--kr);font-size:.92rem;color:var(--text-dim);line-height:1.6;display:flex;gap:.7rem}
+.next li span{font-family:var(--mono);font-size:.64rem;font-weight:700;color:var(--accent3);padding-top:.25rem;min-width:3.2rem;letter-spacing:.06em}
+@media (max-width:1000px){.principles{grid-template-columns:1fr 1fr}.problem,.status-box{grid-template-columns:1fr;gap:2rem}}
+@media (max-width:768px){.projects{grid-template-columns:1fr}.hp-desc{display:none}.quote br{display:none}}
+@media (max-width:480px){.principles{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">
+    <span class="brand-name">tiny_<b>brain</b></span>
+    <span class="brand-by">by tiny_flowlab</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#flow">Flow</a>
+      <a href="#principles">Principles</a>
+      <a href="#projects">Projects</a>
+      <a href="#status">Status</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-locale="ko">KO</button>
+      <button class="lang-btn" data-locale="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="flow-lines" viewBox="0 0 1600 940" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="flow-cyan" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#71e5e2" stop-opacity="0"/><stop offset=".46" stop-color="#71e5e2" stop-opacity=".52"/><stop offset="1" stop-color="#b5a2ff" stop-opacity=".08"/></linearGradient>
+        <linearGradient id="flow-violet" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#b5a2ff" stop-opacity="0"/><stop offset=".58" stop-color="#b5a2ff" stop-opacity=".36"/><stop offset="1" stop-color="#71e5e2" stop-opacity="0"/></linearGradient>
+      </defs>
+      <g class="drift-a" fill="none" stroke="url(#flow-cyan)" stroke-width="1">
+        <path d="M-180 638 C110 410 250 804 570 628 S1050 394 1260 510 1510 602 1780 362"/>
+        <path d="M-190 674 C120 445 260 838 590 660 S1060 426 1272 542 1530 635 1790 398"/>
+        <path d="M-200 710 C130 480 275 870 605 694 S1070 460 1284 574 1550 668 1800 434"/>
+        <path d="M-210 747 C140 515 290 902 620 728 S1080 494 1296 608 1570 702 1810 470"/>
+        <path d="M-220 784 C150 550 305 934 635 762 S1090 528 1308 642 1590 736 1820 506"/>
+        <path d="M-230 821 C160 585 320 966 650 796 S1100 562 1320 676 1610 770 1830 542"/>
+      </g>
+      <g class="drift-b" fill="none" stroke="url(#flow-violet)" stroke-width="1">
+        <path d="M-150 240 C150 414 330 50 620 236 S1015 450 1260 300 1510 175 1780 322"/>
+        <path d="M-160 276 C160 450 340 86 632 272 S1026 486 1274 336 1520 211 1790 358"/>
+        <path d="M-170 312 C170 486 350 122 644 308 S1037 522 1288 372 1530 247 1800 394"/>
+        <path d="M-180 348 C180 522 360 158 656 344 S1048 558 1302 408 1540 283 1810 430"/>
+      </g>
+    </svg>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badges">
+        <span class="badge"><span class="dot"></span>Second Brain · <span data-lang="ko">운영 중</span><span data-lang="en">In operation</span></span>
+      </div>
+      <h1 data-lang="ko">흩어진 정보를<br><span class="hl">다시 꺼내 쓸 수 있는 지식으로</span></h1>
+      <h1 data-lang="en">Turning scattered information<br>into <span class="hl">knowledge you can recall</span></h1>
+      <p class="lead" data-lang="ko">tiny_brain은 Tiny의 세컨드브레인 관제탑입니다. 머릿속에서만 소비되던 대화와 북마크를 데이터로 남기고, 구조화하고, 검토를 거쳐 공유합니다.</p><p class="lead" data-lang="en">tiny_brain is Tiny&#39;s second-brain control tower. Conversations and bookmarks that used to live only in my head become data — structured, reviewed, and shared.</p>
+      <p class="quote" data-lang="ko">혼돈을 기억 가능한 신호로, 신호를 검토 가능한 초안으로,<br>초안을 신뢰 가능한 발행으로.</p><p class="quote" data-lang="en">Chaos into recallable signals, signals into reviewable drafts,<br>drafts into trustworthy publications.</p>
+      <div class="ctas">
+        <a href="#flow" class="btn btn-primary"><span data-lang="ko">흐름 보기</span><span data-lang="en">See the flow</span> →</a>
+        <a href="/" class="btn btn-ghost">← tiny_flowlab</a>
+      </div>
+    </div>
+
+    <div class="hero-panel reveal" aria-label="pipeline status">
+      <div class="hp-label">Pipeline · control tower</div>
+      <div class="hp-row"><span class="hp-dot"></span><span class="hp-name">Collect</span><span class="hp-desc" data-lang="ko">대화 · 북마크 수집</span><span class="hp-desc" data-lang="en">Conversations · bookmarks</span><span class="hp-state">LIVE</span></div>
+      <div class="hp-row"><span class="hp-dot"></span><span class="hp-name">Structure</span><span class="hp-desc" data-lang="ko">토픽 · 인사이트 추출</span><span class="hp-desc" data-lang="en">Topics · insight extraction</span><span class="hp-state">LIVE</span></div>
+      <div class="hp-row"><span class="hp-dot wip"></span><span class="hp-name">Review</span><span class="hp-desc" data-lang="ko">사람이 고르고 판정</span><span class="hp-desc" data-lang="en">Human selection · verdict</span><span class="hp-state wip">VALIDATING</span></div>
+      <div class="hp-row"><span class="hp-dot"></span><span class="hp-name">Publish</span><span class="hp-desc" data-lang="ko">Flowlab 커뮤니티</span><span class="hp-desc" data-lang="en">Flowlab community</span><span class="hp-state">LIVE</span></div>
+      <div class="hp-row"><span class="hp-dot"></span><span class="hp-name">Monitor</span><span class="hp-desc" data-lang="ko">상태 대시보드</span><span class="hp-desc" data-lang="en">Status dashboard</span><span class="hp-state">LIVE</span></div>
+      <div class="hp-row"><span class="hp-dot plan"></span><span class="hp-name">Sources+</span><span class="hp-desc" data-lang="ko">커뮤니티 · 영상 채널 확장</span><span class="hp-desc" data-lang="en">More communities · video</span><span class="hp-state plan">PLANNED</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="wrap problem">
+    <div>
+      <div class="eyebrow">Why</div>
+      <h2 class="kr" data-lang="ko">정보는 매일 모이는데,<br>남는 것이 없었다</h2><h2 class="kr" data-lang="en">Information piles up every day,<br>yet nothing stays</h2>
+      <p class="lead" data-lang="ko">여러 채널에서 매일 정보를 모으지만, 대부분은 머릿속 정리에서 끝납니다. tiny_brain은 이 정보를 실제 데이터로 남기는 데서 시작했습니다.</p><p class="lead" data-lang="en">I gather information from many channels every day, but most of it ends as a mental note. tiny_brain started by turning that into actual data.</p>
+    </div>
+    <ul>
+      <li data-lang="ko"><b>다시 찾을 수 없다</b> — 저장해 둔 북마크와 대화가 어디 있는지 기억나지 않는다.</li>
+      <li data-lang="en"><b>Can&#39;t find it again</b> — saved bookmarks and conversations get lost.</li>
+      <li data-lang="ko"><b>연결할 수 없다</b> — 비슷한 생각이 여러 곳에 흩어져 서로 이어지지 않는다.</li>
+      <li data-lang="en"><b>Can&#39;t connect it</b> — related ideas stay scattered across places.</li>
+      <li data-lang="ko"><b>공유할 수 없다</b> — 좋은 인사이트도 글이 되지 못하고 사라진다.</li>
+      <li data-lang="en"><b>Can&#39;t share it</b> — good insights fade before becoming writing.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section id="flow" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Flow</div>
+    <h2 class="kr" data-lang="ko">수집에서 발행까지, 사람이 중심에 있는 파이프라인</h2><h2 class="kr" data-lang="en">From collection to publishing, with a human at the center</h2>
+    <p class="lead" data-lang="ko">시스템과 LLM은 깊이를 더하고, 무엇이 중요한지는 Tiny가 고릅니다. 자동 추출 결과만으로 발행하지 않습니다.</p><p class="lead" data-lang="en">The system and LLMs add depth; Tiny decides what matters. Nothing is published on automatic extraction alone.</p>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">01</div><h3>Collect</h3><p data-lang="ko">대화와 북마크를 원문 그대로 모읍니다. 나중에 근거로 돌아올 수 있도록요.</p><p data-lang="en">Conversations and bookmarks are stored as-is, so every claim can trace back to its source.</p></div>
+      <div class="step reveal"><div class="step-num">02</div><h3>Structure</h3><p data-lang="ko">하루 단위로 토픽을 나누고 인사이트를 뽑아 글 초안으로 만듭니다.</p><p data-lang="en">Topics are split day by day, insights extracted, and turned into draft writing.</p></div>
+      <div class="step reveal"><div class="step-num">03</div><h3>Review</h3><p data-lang="ko">Tiny가 직접 고르고, 메모하고, 승인하거나 반려합니다. 가장 강한 신호입니다.</p><p data-lang="en">Tiny selects, annotates, approves or rejects — the strongest signal in the system.</p></div>
+      <div class="step reveal"><div class="step-num">04</div><h3>Publish</h3><p data-lang="ko">검수를 통과한 글만 Flowlab 커뮤니티로 발행합니다.</p><p data-lang="en">Only reviewed pieces are published to the Flowlab community.</p></div>
+    </div>
+    <div class="states" aria-label="state language">
+      <span class="state">collected</span><span class="state-arrow">→</span>
+      <span class="state">analyzed</span><span class="state-arrow">→</span>
+      <span class="state human">selected</span><span class="state-arrow">→</span>
+      <span class="state">drafted</span><span class="state-arrow">→</span>
+      <span class="state human">review_pending</span><span class="state-arrow">→</span>
+      <span class="state">publish_ready</span><span class="state-arrow">→</span>
+      <span class="state out">published</span>
+    </div>
+    <p class="state-note" data-lang="ko">모든 프로젝트가 같은 상태 언어를 씁니다. 보라색은 사람이 판단하는 단계입니다.</p><p class="state-note" data-lang="en">Every project shares the same state language. Violet marks steps that need a human decision.</p>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section id="principles">
+  <div class="wrap">
+    <div class="eyebrow">Design philosophy · Control-Tower Recall Design</div>
+    <h2 class="kr" data-lang="ko">피드가 아니라 관제탑</h2><h2 class="kr" data-lang="en">A control tower, not a feed</h2>
+    <p class="lead" data-lang="ko">오래 스크롤하게 만드는 앱이 아니라, 이미 모아 둔 것을 다시 불러오고 근거 있게 판단하도록 돕는 인터페이스를 지향합니다.</p><p class="lead" data-lang="en">Not an app that keeps you scrolling, but an interface that helps you recall what you already have and judge it on evidence.</p>
+    <div class="principles">
+      <div class="principle reveal"><div class="num">01</div><h3>Control Tower, Not Feed</h3><p data-lang="ko">추천 피드 대신 상태 요약, 병목, 검토 대기, 다음 행동을 먼저 보여줍니다.</p><p data-lang="en">Status, bottlenecks, pending reviews and next actions come before any feed.</p></div>
+      <div class="principle reveal"><div class="num">02</div><h3>Recall Before Consumption</h3><p data-lang="ko">새 콘텐츠보다 이미 저장한 것을 다시 떠올리게 하는 것이 먼저입니다.</p><p data-lang="en">Resurfacing what you saved matters more than serving something new.</p></div>
+      <div class="principle reveal"><div class="num">03</div><h3>Human Spots, System Deepens</h3><p data-lang="ko">사람이 발견하고, 시스템이 깊게 파고듭니다. LLM 확신도만으로 결정하지 않습니다.</p><p data-lang="en">Humans spot, the system deepens. LLM confidence alone never decides.</p></div>
+      <div class="principle reveal"><div class="num">04</div><h3>Explicit State Machines</h3><p data-lang="ko">상태를 숨기지 않고, 모든 상태 표시는 다음 행동과 연결됩니다.</p><p data-lang="en">States are never hidden, and every status links to the next action.</p></div>
+      <div class="principle reveal"><div class="num">05</div><h3>Korean-First, Source-Recoverable</h3><p data-lang="ko">한국어로 먼저 읽히고, 모든 요약과 초안은 원문 근거로 돌아갈 수 있습니다.</p><p data-lang="en">Reads in Korean first, and every summary or draft traces back to its source.</p></div>
+      <div class="principle reveal"><div class="num">06</div><h3>Trust Through Visible Metrics</h3><p data-lang="ko">잘 되고 있다는 말 대신, 확인할 수 있는 숫자로 신뢰를 쌓습니다.</p><p data-lang="en">Trust comes from metrics you can check, not from claims.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Projects</div>
+    <h2 class="kr" data-lang="ko">tiny_brain을 이루는 프로젝트들</h2><h2 class="kr" data-lang="en">The projects behind tiny_brain</h2>
+    <p class="lead" data-lang="ko">tiny_brain은 하나의 앱이 아니라 독립 프로젝트들을 조율하는 허브입니다. 각 프로젝트가 자기 역할과 데이터를 책임집니다.</p><p class="lead" data-lang="en">tiny_brain is not a single app but a hub coordinating independent projects, each owning its role and data.</p>
+    <div class="projects">
+      <div class="project reveal">
+        <div class="project-top"><span class="project-role">Collect</span><span class="project-status">Private</span></div>
+        <h3 data-lang="ko">수집기</h3><h3 data-lang="en">Collectors</h3>
+        <p data-lang="ko">대화와 북마크를 원문 그대로 모으는 수집 계층. 커뮤니티와 영상 채널로 확장을 계획하고 있습니다.</p><p data-lang="en">The collection layer that stores conversations and bookmarks as-is, with more communities and video channels planned.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">TypeScript</span><span class="chip">SQLite</span><span class="chip">Playwright</span></div>
+      </div>
+      <div class="project reveal">
+        <div class="project-top"><span class="project-role">Structure</span><span class="project-status">Private</span></div>
+        <h3>find_insight_writer</h3>
+        <p data-lang="ko">수집된 대화에서 토픽을 나누고 인사이트를 추출해 글로 쓰고, Flowlab 발행까지 준비하는 AI 파이프라인.</p><p data-lang="en">AI pipeline that splits topics from collected conversations, extracts insights, writes them up and prepares them for Flowlab.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLite FTS5</span><span class="chip">React</span><span class="chip">LLM</span></div>
+        <div class="project-date">Updated 2026.10.03</div>
+      </div>
+      <div class="project reveal">
+        <div class="project-top"><span class="project-role">Publish</span><span class="project-status">Private</span></div>
+        <h3>flowlab_community</h3>
+        <p data-lang="ko">AI 커뮤니티 플랫폼. 게시판·댓글·RSVP·큐레이션과 함께, 자동화 초안을 관리자가 검수해 발행합니다.</p><p data-lang="en">AI community platform with boards, comments, RSVP and curation, where automated drafts are reviewed before publishing.</p>
+        <div class="chips"><span class="chip">Next.js</span><span class="chip">React</span><span class="chip">PostgreSQL</span><span class="chip">TypeScript</span></div>
+        <div class="project-date">Updated 2026.07.13</div>
+      </div>
+      <div class="project reveal">
+        <div class="project-top"><span class="project-role">Monitor</span><span class="project-status">Private</span></div>
+        <h3>status-dashboard</h3>
+        <p data-lang="ko">전체 파이프라인과 서비스 상태를 한눈에 보여주는 읽기 전용 관제 대시보드.</p><p data-lang="en">Read-only control dashboard showing the whole pipeline and service health at a glance.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Chart.js</span></div>
+        <div class="project-date">Updated 2026.10.03</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATUS -->
+<section id="status">
+  <div class="wrap">
+    <div class="eyebrow">Status · 2026.10</div>
+    <h2 class="kr" data-lang="ko">지금 어디까지 왔나</h2><h2 class="kr" data-lang="en">Where it stands now</h2>
+    <div class="status-box">
+      <p class="status-big" data-lang="ko">기술 배포는 됐고,<br><span class="hl">제품 검증은 아직이다.</span></p><p class="status-big" data-lang="en">The tech is deployed.<br><span class="hl">Product validation is not done yet.</span></p>
+      <ul class="next">
+        <li data-lang="ko"><span>DONE</span>수집 · 구조화 · 발행 · 관제 파이프라인 운영</li>
+        <li data-lang="en"><span>DONE</span>Collect · structure · publish · monitor pipeline in operation</li>
+        <li data-lang="ko"><span>NOW</span>Tiny의 실제 회상·검토·발행 행동이 나아졌는지 증거 모으기</li>
+        <li data-lang="en"><span>NOW</span>Gathering evidence that Tiny&#39;s actual recall, review and publishing improved</li>
+        <li data-lang="ko"><span>NOW</span>하루 대화를 돌아보는 자동 초안 실험</li>
+        <li data-lang="en"><span>NOW</span>Experimenting with automatic daily-review drafts</li>
+        <li data-lang="ko"><span>NEXT</span>새 수집 채널 확장은 검증을 통과한 뒤에</li>
+        <li data-lang="en"><span>NEXT</span>New collection channels only after validation passes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 tiny_flowlab · tiny_brain</span>
+  <a href="/">tiny_flowlab home</a>
+</footer>
+
+<script>
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.locale === lang));
+  try { localStorage.setItem('flowlab-lang', lang); } catch (e) {}
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.locale)));
+try { const saved = localStorage.getItem('flowlab-lang'); if (saved) setLang(saved); } catch (e) {}
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
