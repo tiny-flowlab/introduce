@@ -4,6 +4,12 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.2] — 2026-10-08
+### Changed
+- Works에서 `resume_search` 제거, 비공개 `Knowledge Base Tiny`(사람·AI 공용 지식저장소) 추가 — 공개 저장소보다 진행 중인 비공개 작업 비중이 커져 목록을 갱신
+
+---
+
 ## [2.1] — 2026-10-08
 ### Added
 - `tiny_brain/index.html` 랜딩 (/tiny_brain/) — 비전, 설계 철학 6원칙, 수집→구조화→검토→발행 흐름과 공통 상태 언어, 구성 프로젝트, 현재 상태. 사용자 승인 범위(흐름+구성 프로젝트)만 공개하고 포트·IP·페르소나·내부 결정 번호·수집 채널 실명은 제외
