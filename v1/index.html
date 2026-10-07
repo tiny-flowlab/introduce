@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tiny_flowlab - 작은흐름 연구소</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0b1628;--bg2:#101e33;--bg3:#162744;
+--accent:#ffffff;--accent2:#7aaed9;--accent3:#c0a0e0;
+--text:#f0f2f8;--text-dim:#8494ad;--text-faint:#4a5a73;
+--mono:'JetBrains Mono',monospace;
+--sans:'Space Grotesk','Noto Sans KR',sans-serif;
+--kr:'Noto Sans KR',sans-serif;
+--border:rgba(255,255,255,.08);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:var(--bg)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--text-faint);border-radius:3px}
+
+.lang-toggle{display:flex;align-items:center;border:1px solid var(--border);border-radius:100px;overflow:hidden;background:rgba(255,255,255,.02)}
+.lang-btn{font-family:var(--mono);font-size:.65rem;padding:.35rem .7rem;color:var(--text-faint);background:transparent;border:none;cursor:pointer;letter-spacing:.06em;transition:all .3s}
+.lang-btn.active{color:#fff;background:rgba(255,255,255,.1)}
+.lang-btn:hover:not(.active){color:var(--text-dim)}
+
+[data-lang]{display:none}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(10,10,15,.7);border-bottom:1px solid var(--border);transition:all .4s}
+nav.scrolled{padding:.8rem 3rem;background:rgba(10,10,15,.92)}
+.nav-left{display:flex;align-items:center;gap:.6rem}
+.nav-logo-img{height:36px;opacity:.9;transition:opacity .3s}
+.nav-logo-img:hover{opacity:1}
+.nav-logo-text{font-family:var(--mono);font-size:.85rem;font-weight:600;letter-spacing:.08em;color:var(--text);opacity:.9;transition:opacity .3s;text-decoration:none;white-space:nowrap}
+.nav-logo-text:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2.5rem}
+.nav-links a{font-family:var(--mono);font-size:.75rem;color:var(--text-dim);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+section{min-height:100vh;position:relative}
+.section-num{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.section-num::after{content:'';flex:1;max-width:60px;height:1px;background:var(--text-faint)}
+
+#source{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:6rem 3rem 3rem;position:relative;overflow:hidden}
+.hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;animation:gridShift 20s linear infinite}
+@keyframes gridShift{to{background-position:60px 60px}}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);opacity:.15;pointer-events:none}
+.hero-glow-1{top:-200px;right:-100px;background:#3a7bd5}
+.hero-glow-2{bottom:-200px;left:-100px;background:#1a3a6b}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:800px}
+.hero-logo{margin-bottom:2rem}
+.hero-logo img{height:220px;opacity:.95;filter:drop-shadow(0 0 25px rgba(255,255,255,.1));transition:all .4s}
+.hero-logo img:hover{filter:drop-shadow(0 0 35px rgba(255,255,255,.15));transform:scale(1.03)}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(255,255,255,.2);padding:.4rem 1rem;border-radius:100px;margin-bottom:2.5rem;background:rgba(255,255,255,.04)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:var(--kr);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;line-height:1.2;margin-bottom:1.5rem;letter-spacing:-.03em}
+.hero-title .highlight{color:var(--accent2)}
+.hero-sub{font-family:var(--kr);font-size:1.05rem;color:var(--text-dim);line-height:1.8;margin-bottom:3rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
+.hero-cta{align-items:center;gap:.75rem;font-family:var(--mono);font-size:.8rem;color:var(--bg);background:var(--accent);padding:.85rem 2rem;border-radius:6px;text-decoration:none;letter-spacing:.04em;transition:all .3s;border:none;cursor:pointer}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,.12)}
+.hero-cta svg{transition:transform .3s}
+.hero-cta:hover svg{transform:translateX(4px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.hero-scroll span{font-family:var(--mono);font-size:.65rem;color:var(--text-faint);letter-spacing:.15em;text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--accent2),transparent);animation:scrollAnim 2s infinite}
+@keyframes scrollAnim{0%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(0);transform-origin:top}}
+
+#navigator{padding:8rem 3rem;display:flex;align-items:center;justify-content:center}
+.about-container{max-width:900px;width:100%}
+.about-header{margin-bottom:2.5rem}
+.about-header h2{font-family:var(--sans);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;letter-spacing:-.03em}
+.about-header h2 span{color:var(--text-faint)}
+.terminal{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.terminal-bar{display:flex;align-items:center;gap:.5rem;padding:.75rem 1rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.01)}
+.terminal-dot{width:10px;height:10px;border-radius:50%}
+.terminal-dot:nth-child(1){background:#ff5f57}
+.terminal-dot:nth-child(2){background:#ffbd2e}
+.terminal-dot:nth-child(3){background:#28c840}
+.terminal-title{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);margin-left:.75rem;letter-spacing:.05em}
+.terminal-body{padding:1.75rem 2rem;font-family:var(--mono);font-size:.82rem;line-height:2}
+.terminal-line{opacity:0;animation:typeLine .4s forwards}
+.t-prompt{color:var(--accent2)}
+.t-cmd{color:var(--text);font-weight:500}
+.t-output{color:var(--text-dim);padding-left:1.5rem;display:block}
+.t-key{color:var(--accent3)}
+.t-val{color:var(--text)}
+.t-comment{color:var(--text-faint);font-style:italic;display:block;padding-left:1.5rem;line-height:1.9}
+.t-blank{display:block;height:1.2rem}
+@keyframes typeLine{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+#convergence{padding:8rem 3rem;display:flex;align-items:flex-start;justify-content:center}
+.works-container{max-width:960px;width:100%}
+.works-header{margin-bottom:4rem}
+.works-header h2{font-family:var(--sans);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;letter-spacing:-.03em}
+.works-header .works-desc{color:var(--text-dim);font-size:.95rem;font-weight:300;margin-top:.75rem}
+.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.work-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;position:relative;overflow:hidden;transition:all .4s cubic-bezier(.16,1,.3,1);cursor:default}
+.work-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent2),rgba(255,255,255,.6));opacity:0;transition:opacity .4s}
+.work-card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.work-card:hover::before{opacity:1}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem}
+.card-icon{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center}
+.card-icon svg{width:20px;height:20px;stroke:var(--accent2);fill:none;stroke-width:1.5}
+.card-links{display:flex;gap:.5rem}
+.card-link{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s;background:transparent}
+.card-link:hover{border-color:var(--accent2);background:rgba(255,255,255,.06)}
+.card-link svg{width:14px;height:14px;stroke:var(--text-dim);fill:none;stroke-width:2;transition:stroke .3s}
+.card-link:hover svg{stroke:var(--accent2)}
+.card-title{font-family:var(--mono);font-size:.95rem;font-weight:500;margin-bottom:.6rem;color:var(--text);letter-spacing:-.01em}
+.card-desc{font-family:var(--kr);font-size:.82rem;color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem;font-weight:300}
+.card-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:.65rem;padding:.3rem .7rem;border-radius:100px;letter-spacing:.04em;border:1px solid}
+.tag-python{color:#7aaed9;border-color:rgba(122,174,217,.2);background:rgba(122,174,217,.05)}
+.tag-data{color:#a0b4cc;border-color:rgba(160,180,204,.2);background:rgba(160,180,204,.05)}
+.tag-shell{color:#d4b783;border-color:rgba(212,183,131,.2);background:rgba(212,183,131,.05)}
+.tag-wsl{color:#b8a0cc;border-color:rgba(184,160,204,.2);background:rgba(184,160,204,.05)}
+.tag-html{color:#89b3d9;border-color:rgba(137,179,217,.2);background:rgba(137,179,217,.05)}
+.tag-static{color:#8494ad;border-color:rgba(132,148,173,.2);background:rgba(132,148,173,.05)}
+.tag-ai{color:#b8a0d9;border-color:rgba(184,160,217,.2);background:rgba(184,160,217,.05)}
+.tag-fastapi{color:#7acca8;border-color:rgba(122,204,168,.2);background:rgba(122,204,168,.05)}
+.tag-private{color:#c9956a;border-color:rgba(201,149,106,.2);background:rgba(201,149,106,.05)}
+.tag-nextjs{color:#8fccb8;border-color:rgba(143,204,184,.2);background:rgba(143,204,184,.05)}
+.tag-js{color:#d9cc7a;border-color:rgba(217,204,122,.2);background:rgba(217,204,122,.05)}
+.card-lock{display:flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.65rem;color:var(--text-faint);letter-spacing:.06em}
+.card-lock svg{width:11px;height:11px;stroke:var(--text-faint);fill:none;stroke-width:2;flex-shrink:0}
+.work-card.featured{border-color:rgba(122,174,217,.35);background:linear-gradient(135deg,rgba(122,174,217,.10),rgba(192,160,224,.06) 60%,var(--bg2));box-shadow:0 0 0 1px rgba(122,174,217,.08),0 20px 60px rgba(0,0,0,.25)}
+.work-card.featured::before{opacity:1;background:linear-gradient(90deg,var(--accent2),var(--accent3))}
+.featured-label{display:inline-block;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);border:1px solid rgba(122,174,217,.3);border-radius:100px;padding:.2rem .6rem;margin-bottom:.6rem}
+.card-title-link{color:inherit;text-decoration:none}
+.card-title-link span{color:var(--accent2);transition:margin .3s}
+.card-title-link:hover span{margin-left:.3rem}
+.card-date{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);margin-top:.6rem;letter-spacing:.04em}
+
+#ocean{padding:8rem 3rem;display:flex;align-items:center;justify-content:center;min-height:70vh}
+.contact-container{max-width:700px;width:100%;text-align:center}
+.contact-container h2{font-family:var(--sans);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;letter-spacing:-.03em;margin-bottom:1rem}
+.contact-container h2 .highlight{color:var(--accent2)}
+.contact-sub{color:var(--text-dim);font-size:.95rem;font-weight:300;line-height:1.7;margin-bottom:3rem}
+.contact-email{display:inline-flex;align-items:center;gap:.75rem;font-family:var(--mono);font-size:.95rem;color:var(--accent2);text-decoration:none;padding:1rem 2rem;border:1px solid rgba(255,255,255,.15);border-radius:10px;transition:all .3s;background:rgba(255,255,255,.03)}
+.contact-email:hover{border-color:var(--accent);background:rgba(255,255,255,.08);transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,255,255,.06)}
+.contact-socials{display:flex;justify-content:center;gap:1rem;margin-top:2.5rem}
+.social-link{width:42px;height:42px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s}
+.social-link:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.social-link svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;stroke-width:1.8;transition:stroke .3s}
+.social-link:hover svg{stroke:var(--accent2)}
+
+footer{padding:2rem 3rem;border-top:1px solid var(--border);text-align:center}
+footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-spacing:.06em}
+
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.35s}
+
+.particle{position:absolute;width:2px;height:2px;background:var(--accent2);border-radius:50%;opacity:0;pointer-events:none}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem}
+  nav.scrolled{padding:.7rem 1.25rem}
+  .nav-logo-img{height:30px}
+  .nav-logo-text{font-size:.8rem}
+  .nav-right{gap:1rem}
+  .nav-links{gap:1rem}
+  .nav-links a{font-size:.6rem}
+  section{min-height:auto}
+  #source{min-height:100dvh;padding:5rem 1.25rem 3rem}
+  #navigator{padding:4rem 1.25rem;min-height:auto}
+  #convergence{padding:4rem 1.25rem;min-height:auto}
+  #ocean{padding:4rem 1.25rem;min-height:auto}
+  .works-grid{grid-template-columns:1fr}
+  .hero-title{font-size:2rem}
+  .hero-sub{font-size:.95rem}
+  .hero-logo img{height:180px}
+  .terminal-body{padding:1.25rem;font-size:.78rem}
+  footer{padding:1.5rem}
+}
+
+@media(max-width:480px){
+  nav{padding:.8rem 1rem}
+  nav.scrolled{padding:.6rem 1rem}
+  .nav-logo-img{height:26px}
+  .nav-logo-text{font-size:.75rem}
+  .nav-links{display:none}
+  .nav-right{gap:.75rem}
+  #source{min-height:100dvh;padding:4.5rem 1rem 3rem;align-items:flex-start}
+  #navigator{padding:3.5rem 1rem;min-height:auto}
+  #convergence{padding:3.5rem 1rem;min-height:auto}
+  #ocean{padding:3.5rem 1rem;min-height:auto}
+  .hero-content{padding-top:2rem}
+  .hero-title{font-size:1.75rem}
+  .hero-sub{font-size:.9rem;line-height:1.7}
+  .hero-badge{font-size:.62rem;padding:.35rem .8rem}
+  .hero-logo{margin-bottom:1.25rem}
+  .hero-logo img{height:160px}
+  .work-card{padding:1.5rem}
+  .contact-email{padding:.75rem 1.25rem;font-size:.85rem}
+  footer{padding:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-left">
+  <img src="../assets/logo_clean.png" alt="tiny_flowlab" class="nav-logo-img" style="display:none">
+    <span class="nav-logo-text">tiny_flowlab</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#source">Source</a>
+      <a href="#navigator">About</a>
+      <a href="#convergence">Works</a>
+      <a href="#ocean">Contact</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-locale="ko">KO</button>
+      <button class="lang-btn" data-locale="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="source">
+  <div class="hero-canvas">
+    <div class="hero-grid"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="../assets/logo_white.png" alt="tiny_flowlab logo">
+    </div>
+    <div class="hero-badge"><span class="dot"></span>Flow Researcher</div>
+
+    <h1 class="hero-title" data-lang="ko">작은 흐름이 만드는<br><span class="highlight">거대한 몰입</span></h1>
+    <h1 class="hero-title" data-lang="en">Tiny flows create<br><span class="highlight">massive immersion</span></h1>
+
+    <p class="hero-sub" data-lang="ko">몰입을 돕는 도구와 서비스를 찾아가는<br>Tiny의 작은 연구소입니다.</p>
+    <p class="hero-sub" data-lang="en">A tiny lab by Tiny, exploring tools and<br>services that help you find your flow.</p>
+
+    <a href="#convergence" class="hero-cta" data-lang="ko">작업 확인하기 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <a href="#convergence" class="hero-cta" data-lang="en">View works <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="navigator">
+  <div class="about-container">
+    <div class="about-header reveal">
+      <div class="section-num">02 — The Navigator</div>
+      <h2>About Me<span>.</span></h2>
+    </div>
+
+    <div class="terminal reveal reveal-delay-1" data-lang="ko">
+      <div class="terminal-bar">
+        <div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div>
+        <span class="terminal-title">tiny@flowlab ~</span>
+      </div>
+      <div class="terminal-body terminal-animated">
+        <div class="terminal-line"><span class="t-prompt">$ </span><span class="t-cmd">whoami</span></div>
+        <span class="terminal-line t-output"><span class="t-key">Name:</span> <span class="t-val">Tiny</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Role:</span> <span class="t-val">Flow Researcher</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Mission:</span> <span class="t-val">Exploring the flow of work</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Program:</span> <span class="t-val">Google TPU Builder Program 참여 중</span></span>
+        <span class="terminal-line t-blank"></span>
+        <div class="terminal-line"><span class="t-prompt">$ </span><span class="t-cmd">cat philosophy.txt</span></div>
+        <span class="terminal-line t-comment">일상의 작은 루틴과 흐름을 모아,</span>
+        <span class="terminal-line t-comment">거대한 몰입으로 이끌어 가는 것을 위해</span>
+        <span class="terminal-line t-comment">오늘도 그냥 떠오르는 생각과 작은 호기심을 기반으로</span>
+        <span class="terminal-line t-comment">만들고 정리하는 것을 목표로 합니다.</span>
+      </div>
+    </div>
+
+    <div class="terminal reveal reveal-delay-1" data-lang="en">
+      <div class="terminal-bar">
+        <div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div>
+        <span class="terminal-title">tiny@flowlab ~</span>
+      </div>
+      <div class="terminal-body terminal-animated">
+        <div class="terminal-line"><span class="t-prompt">$ </span><span class="t-cmd">whoami</span></div>
+        <span class="terminal-line t-output"><span class="t-key">Name:</span> <span class="t-val">Tiny</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Role:</span> <span class="t-val">Flow Researcher</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Mission:</span> <span class="t-val">Exploring the flow of work</span></span>
+        <span class="terminal-line t-output"><span class="t-key">Program:</span> <span class="t-val">Participant, Google TPU Builder Program</span></span>
+        <span class="terminal-line t-blank"></span>
+        <div class="terminal-line"><span class="t-prompt">$ </span><span class="t-cmd">cat philosophy.txt</span></div>
+        <span class="terminal-line t-comment">Gathering small daily routines and flows,</span>
+        <span class="terminal-line t-comment">guiding them toward massive immersion.</span>
+        <span class="terminal-line t-comment">Every day, fueled by spontaneous thoughts and curiosity,</span>
+        <span class="terminal-line t-comment">I build and organize — that is the goal.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="convergence">
+  <div class="works-container">
+    <div class="works-header reveal">
+      <div class="section-num">03 — Convergence</div>
+      <h2>Works<span style="color:var(--text-faint)">.</span></h2>
+      <p class="works-desc" data-lang="ko">흐름들이 모여 만들어낸 결과물들입니다.</p>
+      <p class="works-desc" data-lang="en">Where converging flows become tangible results.</p>
+    </div>
+    <div class="works-grid">
+
+      <!-- tiny_brain overview -->
+      <div class="work-card reveal reveal-delay-1" style="grid-column:1/-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+        </div>
+        <h3 class="card-title">tiny_brain</h3>
+        <p class="card-desc" data-lang="ko">개인 지식 아카이브와 인사이트 발행을 자동화하는 AI 통합 파이프라인 시스템. 다양한 소스에서 정보를 수집·분석·구조화하여 Flowlab 커뮤니티로 발행하는 흐름을 하나로 연결한다.</p>
+        <p class="card-desc" data-lang="en">An integrated AI pipeline system automating personal knowledge archiving and insight publishing. Connects collection, analysis, and distribution into a single continuous flow toward the Flowlab community.</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.10.08</div>
+      </div>
+
+      <!-- shot_Flow (image harness) -->
+      <div class="work-card featured reveal reveal-delay-2" style="grid-column:1/-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span><a href="../shot_flow/" class="card-link" title="Landing"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></div>
+        </div>
+        <div class="featured-label">Featured</div>
+        <h3 class="card-title"><a href="../shot_flow/" class="card-title-link">shot_Flow <span aria-hidden="true">→</span></a></h3>
+        <p class="card-desc" data-lang="ko">자연어 캠페인 브리프를 에디토리얼 컨셉·스토리보드·샷 플랜·비주얼 컨셉으로 바꾸는 LLM 네이티브 광고 제작 도구. 샷 전반에서 인물·제품 일관성을 유지하고 샷마다 적합한 이미지 모델로 라우팅한다.</p>
+        <p class="card-desc" data-lang="en">LLM-native advertising production tool that turns natural-language campaign briefs into editorial concepts, storyboards, shot plans &amp; visual concepts — keeping identity and product consistency across shots and routing each shot to a suitable image model.</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.10.07</div>
+      </div>
+
+      <!-- tiny_brain support projects -->
+      <div class="work-card reveal reveal-delay-2">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+        </div>
+        <h3 class="card-title">find_insight_writer</h3>
+        <p class="card-desc" data-lang="ko">다양한 소스에서 인사이트를 추출하고 Flowlab에 자동 발행하는 AI 파이프라인</p>
+        <p class="card-desc" data-lang="en">AI pipeline that extracts insights from multiple sources and auto-publishes to Flowlab</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.10.03</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-3">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+        </div>
+        <h3 class="card-title">flowlab_community</h3>
+        <p class="card-desc" data-lang="ko">AI 커뮤니티 플랫폼 — 게시판·댓글·RSVP·큐레이션 풀스택 앱</p>
+        <p class="card-desc" data-lang="en">AI community platform — boards, comments, RSVP &amp; curation full-stack app</p>
+        <div class="card-tags"><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.07.13</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-4">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="card-links"><span class="card-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Private</span></div>
+        </div>
+        <h3 class="card-title">status-dashboard</h3>
+        <p class="card-desc" data-lang="ko">tiny_brain 전체 파이프라인 상태 시각화 모니터링 대시보드</p>
+        <p class="card-desc" data-lang="en">Monitoring dashboard for the tiny_brain pipeline architecture</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span><span class="tag tag-private">개발 중</span></div>
+        <div class="card-date">Updated 2026.10.03</div>
+      </div>
+
+      <!-- chatbot server -->
+      <div class="work-card reveal reveal-delay-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/chatbot-io-server" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">chatbot-io-server</h3>
+        <p class="card-desc" data-lang="ko">메신저 봇 미들웨어 서버 — 메시지 수신·자동응답·관리자 WebUI</p>
+        <p class="card-desc" data-lang="en">Messenger bot middleware — message handling, auto-reply &amp; admin WebUI</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span></div>
+        <div class="card-date">Updated 2026.03.25</div>
+      </div>
+
+      <!-- public repos: newest first -->
+      <div class="work-card reveal reveal-delay-2">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/agy-statusline-custom" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">agy-statusline-custom</h3>
+        <p class="card-desc" data-lang="ko">Antigravity CLI용 3줄 터미널 상태바 — 사용량·비용·서브에이전트·컨텍스트 실시간 표시</p>
+        <p class="card-desc" data-lang="en">3-line terminal status bar for Antigravity CLI — live usage, cost, subagent &amp; context tracking</p>
+        <div class="card-tags"><span class="tag tag-js">JavaScript</span><span class="tag tag-shell">CLI</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2026.05.24</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">wsl2-ai-dev-setup</h3>
+        <p class="card-desc" data-lang="ko">WSL2 환경에서의 AI 개발 환경 구축 가이드</p>
+        <p class="card-desc" data-lang="en">AI dev environment setup guide on WSL2</p>
+        <div class="card-tags"><span class="tag tag-shell">Shell</span><span class="tag tag-wsl">WSL2</span></div>
+        <div class="card-date">Updated 2026.02.28</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-3">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/novel-studio-copilot-cli" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">novel-studio-copilot-cli</h3>
+        <p class="card-desc" data-lang="ko">GitHub Copilot CLI 기반 AI 멀티에이전트 소설 창작 시스템</p>
+        <p class="card-desc" data-lang="en">AI multi-agent novel creation system for GitHub Copilot CLI</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2026.02.15</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-4">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="card-links">
+            <a href="https://flowlab.tinypia.com/ai-timeline-2025" class="card-link" target="_blank" rel="noopener" title="Demo"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            <a href="https://github.com/tiny-flowlab/ai-timeline-2025" class="card-link" target="_blank" rel="noopener" title="GitHub"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+          </div>
+        </div>
+        <h3 class="card-title">ai-timeline-2025</h3>
+        <p class="card-desc" data-lang="ko">2025년 AI 기술 타임라인 정리</p>
+        <p class="card-desc" data-lang="en">2025 AI technology timeline overview</p>
+        <div class="card-tags"><span class="tag tag-html">HTML</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2025.12.07</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-1">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/resume_search" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">resume_search</h3>
+        <p class="card-desc" data-lang="ko">이력서 데이터 변환 및 검증 (HR지원)</p>
+        <p class="card-desc" data-lang="en">Resume data transformation &amp; validation for HR</p>
+        <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-data">Data</span></div>
+        <div class="card-date">Updated 2025.10.24</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="ocean">
+  <div class="contact-container">
+    <div class="section-num reveal" style="justify-content:center">04 — The Ocean</div>
+    <h2 class="reveal reveal-delay-1">Let's Make <span class="highlight">Waves</span><span style="color:var(--text-faint)">.</span></h2>
+    <p class="contact-sub reveal reveal-delay-2" data-lang="ko">새로운 흐름을 함께 만들고 싶다면 연락주세요.</p>
+    <p class="contact-sub reveal reveal-delay-2" data-lang="en">Want to create new flows together? Let's connect.</p>
+    <div class="reveal reveal-delay-3">
+      <a href="mailto:contact@tiny-flowlab.com" class="contact-email">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        contact@tiny-flowlab.com
+      </a>
+    </div>
+    <div class="contact-socials reveal reveal-delay-4">
+      <a href="https://github.com/tiny-flowlab" class="social-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+      <a href="#" class="social-link"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" class="social-link"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-6.768m2.46-2.46L20 4"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<footer><p>&copy; 2024 tiny_flowlab. All rights reserved.</p></footer>
+
+<script>
+// ===== LOCALE =====
+let currentLang = (navigator.language || 'ko').startsWith('en') ? 'en' : 'ko';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.locale === lang));
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    const show = el.dataset.lang === lang;
+    const tag = el.tagName;
+    if (show) {
+      if (tag === 'A') el.style.display = 'inline-flex';
+      else if (['H1','H2','P','DIV'].includes(tag)) el.style.display = 'block';
+      else el.style.display = 'inline';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.locale)));
+setLang(currentLang);
+
+// ===== NAV =====
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', scrollY > 60));
+
+// ===== REVEAL =====
+const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ===== PARTICLES =====
+const pStyle = document.createElement('style');
+pStyle.textContent = '@keyframes floatUp{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.5}90%{opacity:.2}100%{transform:translateY(-100vh) translateX(30px);opacity:0}}';
+document.head.appendChild(pStyle);
+const canvas = document.querySelector('.hero-canvas');
+for (let i = 0; i < 25; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  Object.assign(p.style, { left: Math.random()*100+'%', bottom: '-10px', width: (1+Math.random()*2)+'px', height: (1+Math.random()*2)+'px', animation: `floatUp ${4+Math.random()*6}s ${Math.random()*3}s linear infinite` });
+  canvas.appendChild(p);
+}
+
+// ===== TERMINAL ANIM =====
+let tDone = false;
+const tObs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting && !tDone) { tDone = true; document.querySelectorAll('.terminal-animated').forEach(b => b.querySelectorAll('.terminal-line').forEach((l,i) => l.style.animationDelay = i*.15+'s')); }
+}), { threshold: .3 });
+document.querySelectorAll('.terminal-animated').forEach(b => tObs.observe(b));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' }); }));
+</script>
+</body>
+</html>

@@ -4,6 +4,16 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.0] — 2026-10-08
+### Changed
+- 홈페이지 V2: "Deep Flow" 디자인으로 전면 교체 (인디고 블랙 + 물결 라인 + 시안·바이올렛). V1 네이비 개발자 템플릿에서 벗어나 "흐름" 정체성을 시각화. 다크 시안 3개 중 사용자 선택
+  - Works: tiny_brain·shot_Flow 하이라이트 패널 + 나머지 9개 리스트 (홀수 칸 문제 해소)
+  - Contact: GitHub만 유지 (V1의 LinkedIn·X는 빈 링크였음)
+- V1은 git 태그 `v1` + `/v1/` 경로로 보존
+- shot_Flow 랜딩에서 Google TPU Builder Program 배지 제거 (About에는 유지)
+
+---
+
 ## [0.7] — 2026-10-08
 ### Added
 - `shot_flow/index.html` 랜딩 페이지 (/shot_flow/) — 대외 포지셔닝 기반 소개: Hero(TPU Builder 배지), 5단계 흐름, 기능 4종, 예시 Studio 목업, 파일럿 문의. 실제 내부 구조는 의도적으로 담지 않음
