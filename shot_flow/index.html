@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shot_Flow — tiny_flowlab</title>
+<meta name="description" content="shot_Flow: LLM-native advertising production tool — from campaign brief to editorial concepts, storyboards, shot plans and visuals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0b1628;--bg2:#101e33;--bg3:#162744;
+--accent:#ffffff;--accent2:#7aaed9;--accent3:#c0a0e0;
+--text:#f0f2f8;--text-dim:#8fa0b8;--text-faint:#5a6a83;
+--mono:'JetBrains Mono',monospace;
+--sans:'Space Grotesk','Noto Sans KR',sans-serif;
+--kr:'Noto Sans KR',sans-serif;
+--border:rgba(255,255,255,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:var(--bg)}
+a{color:inherit}
+html[lang="ko"] [data-lang="en"],html[lang="en"] [data-lang="ko"]{display:none!important}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(20px);background:rgba(10,14,24,.72);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.brand-name{font-family:var(--mono);font-size:.9rem;font-weight:600;letter-spacing:.06em}
+.brand-name b{color:var(--accent2);font-weight:600}
+.brand-by{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.08em;border-left:1px solid var(--border);padding-left:.75rem}
+.nav-right{display:flex;align-items:center;gap:2rem}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{font-family:var(--mono);font-size:.72rem;color:var(--text-dim);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--accent)}
+.lang-toggle{display:flex;border:1px solid var(--border);border-radius:100px;overflow:hidden;background:rgba(255,255,255,.02)}
+.lang-btn{font-family:var(--mono);font-size:.65rem;padding:.35rem .7rem;color:var(--text-faint);background:transparent;border:none;cursor:pointer;letter-spacing:.06em}
+.lang-btn.active{color:#fff;background:rgba(255,255,255,.1)}
+
+/* COMMON */
+section{padding:7rem 3rem}
+.wrap{max-width:1120px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:.7rem;color:var(--accent2);letter-spacing:.16em;text-transform:uppercase;margin-bottom:1.1rem}
+h2{font-family:var(--sans);font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:1rem}
+h2 .kr,.kr{font-family:var(--kr)}
+.lead{font-family:var(--kr);color:var(--text-dim);font-size:1rem;line-height:1.85;max-width:620px;font-weight:300}
+
+/* HERO */
+.hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;padding-top:8rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(600px 400px at 85% 20%,rgba(122,174,217,.16),transparent 70%),
+  radial-gradient(500px 380px at 10% 85%,rgba(192,160,224,.12),transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:4rem;align-items:center;position:relative}
+.badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem}
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.18);padding:.4rem .9rem;border-radius:100px;background:rgba(255,255,255,.04)}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:#7acca8;box-shadow:0 0 10px #7acca8}
+.badge.tpu{border-color:rgba(122,174,217,.35);color:var(--accent2)}
+.hero h1{font-family:var(--kr);font-size:clamp(2.3rem,4.6vw,3.6rem);font-weight:700;line-height:1.2;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero h1 .hl{background:linear-gradient(90deg,var(--accent2),var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin-bottom:2.5rem}
+.ctas{display:flex;flex-wrap:wrap;gap:.8rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.04em;padding:.85rem 1.6rem;border-radius:8px;text-decoration:none;transition:all .3s}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.12)}
+.btn-ghost{border:1px solid var(--border);color:var(--text-dim)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+
+/* hero visual */
+.visual{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.brief{border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;background:rgba(255,255,255,.02);margin-bottom:1rem}
+.brief-label{font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem}
+.brief-text{font-family:var(--kr);font-size:.88rem;color:var(--text);line-height:1.6}
+.brief-text .caret{display:inline-block;width:2px;height:1em;background:var(--accent2);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.flow-arrow{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.12em;margin:.2rem 0 1rem;text-transform:uppercase}
+.flow-arrow::before,.flow-arrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(122,174,217,.4),transparent)}
+.frames{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.frame{aspect-ratio:4/5;border-radius:8px;position:relative;overflow:hidden;border:1px solid var(--border)}
+.frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(5,10,20,.75))}
+.frame span{position:absolute;left:.55rem;bottom:.45rem;z-index:1;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;color:rgba(255,255,255,.85)}
+.f1{background:linear-gradient(160deg,#2b4a6f,#152238 60%,#0f1a2c)}
+.f2{background:linear-gradient(200deg,#5a4a7a,#1d2340 65%)}
+.f3{background:linear-gradient(140deg,#3c6a74,#14263a 70%)}
+.f4{background:linear-gradient(180deg,#6b5a4a,#1a2235 70%)}
+.f5{background:linear-gradient(120deg,#2f3f6a,#3a2a52 55%,#121a2c)}
+.f6{background:linear-gradient(210deg,#476a5a,#132235 65%)}
+.frame i{position:absolute;left:50%;top:38%;width:34%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,.12);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.frame i::after{content:'';position:absolute;left:50%;top:115%;width:170%;height:120%;transform:translateX(-50%);border-radius:50% 50% 0 0;background:rgba(255,255,255,.08)}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:3.5rem;counter-reset:s}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.6rem 1.3rem;position:relative;transition:all .35s}
+.step:hover{border-color:rgba(122,174,217,.3);transform:translateY(-4px)}
+.step-num{font-family:var(--mono);font-size:.68rem;color:var(--accent2);letter-spacing:.12em;margin-bottom:1.2rem}
+.step h3{font-family:var(--sans);font-size:1.05rem;font-weight:600;margin-bottom:.55rem}
+.step p{font-family:var(--kr);font-size:.84rem;color:var(--text-dim);line-height:1.7;font-weight:300}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-.85rem;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.8rem;color:var(--text-faint);z-index:1}
+
+/* FEATURES */
+.alt{background:linear-gradient(180deg,var(--bg),#0d1a2f 50%,var(--bg))}
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:3.5rem}
+.feature{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;gap:1.3rem}
+.f-icon{flex:none;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(122,174,217,.08);border:1px solid rgba(122,174,217,.18)}
+.f-icon svg{width:20px;height:20px;stroke:var(--accent2);fill:none;stroke-width:1.6}
+.feature h3{font-family:var(--sans);font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+.feature p{font-family:var(--kr);font-size:.9rem;color:var(--text-dim);line-height:1.75;font-weight:300}
+
+/* STUDIO MOCK */
+.studio{margin-top:3.5rem;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--bg2);box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.studio-bar{display:flex;align-items:center;gap:.5rem;padding:.8rem 1rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.studio-bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12)}
+.studio-bar span{margin-left:.8rem;font-family:var(--mono);font-size:.66rem;color:var(--text-faint);letter-spacing:.06em}
+.studio-body{display:grid;grid-template-columns:200px 1fr}
+.side{border-right:1px solid var(--border);padding:1.2rem .8rem;display:flex;flex-direction:column;gap:.2rem}
+.side-h{font-family:var(--mono);font-size:.58rem;color:var(--text-faint);letter-spacing:.14em;text-transform:uppercase;padding:.8rem .7rem .4rem}
+.side a{font-family:var(--sans);font-size:.82rem;color:var(--text-dim);text-decoration:none;padding:.5rem .7rem;border-radius:7px}
+.side a.on{background:rgba(122,174,217,.1);color:var(--text)}
+.main{padding:1.5rem}
+.main-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:1.3rem;flex-wrap:wrap}
+.main-head h4{font-family:var(--sans);font-size:1.1rem;font-weight:600}
+.main-head small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.08em;margin-top:.3rem}
+.pills{display:flex;gap:.4rem;flex-wrap:wrap}
+.pill{font-family:var(--mono);font-size:.6rem;padding:.3rem .65rem;border-radius:100px;border:1px solid var(--border);color:var(--text-dim)}
+.pill.ok{color:#7acca8;border-color:rgba(122,204,168,.25)}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+.shot{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.015)}
+.shot .frame{aspect-ratio:4/3;border:none;border-radius:0}
+.shot-meta{padding:.6rem .7rem}
+.shot-meta b{display:block;font-family:var(--mono);font-size:.6rem;color:var(--text-faint);letter-spacing:.1em;font-weight:500}
+.shot-meta em{display:block;font-style:normal;font-family:var(--kr);font-size:.74rem;color:var(--text-dim);margin-top:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mock-note{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);letter-spacing:.06em;margin-top:1rem;text-align:right}
+
+/* CTA */
+.cta{text-align:center}
+.cta .lead{margin:0 auto 2.2rem}
+.cta .ctas{justify-content:center}
+footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--mono);font-size:.68rem;color:var(--text-faint);letter-spacing:.06em}
+footer a{text-decoration:none;color:var(--text-dim)}
+footer a:hover{color:var(--text)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr;gap:3rem}
+  .steps{grid-template-columns:1fr 1fr}
+  .step::after{display:none}
+  .board{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:768px){
+  nav{padding:1rem 1rem}
+  .nav-links,.brand-by{display:none}
+  section{padding:5rem 1rem}
+  .hero{padding-top:6.5rem;min-height:auto}
+  .features{grid-template-columns:1fr}
+  .feature{padding:1.5rem}
+  .studio-body{grid-template-columns:1fr}
+  .side{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border);padding:.6rem}
+  .side-h{display:none}
+  .side a{white-space:nowrap}
+  .main{padding:1rem}
+  footer{padding:1.5rem 1rem}
+}
+@media (max-width:480px){
+  .steps{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.brief-text .caret{animation:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="brand">
+    <span class="brand-name">shot_<b>Flow</b></span>
+    <span class="brand-by">by tiny_flowlab</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#how">How</a>
+      <a href="#features">Features</a>
+      <a href="#studio">Studio</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-locale="ko">KO</button>
+      <button class="lang-btn" data-locale="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badges">
+        <span class="badge"><span class="dot"></span><span data-lang="ko">Private Beta · 개발 중</span><span data-lang="en">Private Beta</span></span>
+        <span class="badge tpu">Google TPU Builder Program</span>
+      </div>
+      <h1 data-lang="ko">브리프 한 줄에서<br><span class="hl">캠페인 비주얼까지</span></h1>
+      <h1 data-lang="en">From a single brief<br>to <span class="hl">campaign visuals</span></h1>
+      <p class="lead" data-lang="ko">shot_Flow는 자연어 캠페인 브리프를 에디토리얼 컨셉, 스토리보드, 샷 플랜, 비주얼 컨셉으로 바꾸는 LLM 네이티브 광고 제작 도구입니다. 모든 샷에서 인물과 제품의 일관성을 지키고, 샷마다 가장 잘 맞는 이미지 모델을 골라 보냅니다.</p>
+      <p class="lead" data-lang="en">shot_Flow is an LLM-native advertising production tool that turns natural-language campaign briefs into editorial concepts, storyboards, shot plans, and visual concepts — keeping identity and product consistent across every shot and routing each shot to the image model that suits it best.</p>
+      <div class="ctas">
+        <a href="#how" class="btn btn-primary"><span data-lang="ko">작동 방식 보기</span><span data-lang="en">See how it works</span> →</a>
+        <a href="#contact" class="btn btn-ghost"><span data-lang="ko">파일럿 문의</span><span data-lang="en">Pilot inquiry</span></a>
+      </div>
+    </div>
+
+    <div class="visual reveal">
+      <div class="brief">
+        <div class="brief-label">Campaign brief</div>
+        <div class="brief-text" data-lang="ko">봄 시즌 데일리 백 런칭. 출근길부터 주말 피크닉까지, 같은 모델과 같은 가방으로 6컷 룩북<span class="caret"></span></div>
+        <div class="brief-text" data-lang="en">Spring daily-bag launch. From the morning commute to a weekend picnic — a 6-shot lookbook with the same model and the same bag<span class="caret"></span></div>
+      </div>
+      <div class="flow-arrow">concept · storyboard · shot plan</div>
+      <div class="frames">
+        <div class="frame f1"><i></i><span>SHOT 01</span></div>
+        <div class="frame f2"><i></i><span>SHOT 02</span></div>
+        <div class="frame f3"><i></i><span>SHOT 03</span></div>
+        <div class="frame f4"><i></i><span>SHOT 04</span></div>
+        <div class="frame f5"><i></i><span>SHOT 05</span></div>
+        <div class="frame f6"><i></i><span>SHOT 06</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow">How it works</div>
+    <h2 data-lang="ko" class="kr">기획 회의부터 촬영까지, 한 흐름으로</h2>
+    <h2 data-lang="en">From planning meeting to shoot, in one flow</h2>
+    <p class="lead" data-lang="ko">실제 화보 제작처럼 단계를 나눕니다. 각 단계의 결과를 확인하고 고친 뒤 다음으로 넘어가므로, 프롬프트 한 줄에 운을 거는 일이 없습니다.</p>
+    <p class="lead" data-lang="en">Production is split into stages, just like a real editorial shoot. You review and refine each stage before moving on — no more betting everything on a single prompt.</p>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Brief</h3>
+        <p data-lang="ko">원하는 캠페인을 평소 말하듯 적습니다. 모호한 부분은 AI가 구체적인 안으로 풀어 줍니다.</p>
+        <p data-lang="en">Describe the campaign in plain language. AI expands vague ideas into concrete options.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>Concept</h3>
+        <p data-lang="ko">무드, 스토리, 의상과 제품 연출을 담은 에디토리얼 컨셉을 세웁니다.</p>
+        <p data-lang="en">An editorial concept defines mood, story, styling and product direction.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>Storyboard</h3>
+        <p data-lang="ko">컨셉을 장면 단위로 나눠 캠페인 전체의 흐름을 한눈에 보여줍니다.</p>
+        <p data-lang="en">The concept is broken into scenes so the whole campaign reads at a glance.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h3>Shot plan</h3>
+        <p data-lang="ko">샷마다 구도, 앵글, 조명, 연기를 정합니다. 현장 촬영 감독의 콘티처럼요.</p>
+        <p data-lang="en">Each shot gets framing, angle, lighting and action — like a director's shot list.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">05</div>
+        <h3>Visuals</h3>
+        <p data-lang="ko">샷에 맞는 이미지 모델로 생성하고, 결과를 평가해 수정 방향까지 제안합니다.</p>
+        <p data-lang="en">Each shot is rendered on a suitable model, then evaluated with revision guidance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="alt">
+  <div class="wrap">
+    <div class="eyebrow">Features</div>
+    <h2 data-lang="ko" class="kr">한 장이 아니라, 캠페인 전체를 위해</h2>
+    <h2 data-lang="en">Built for the whole campaign, not a single image</h2>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="f-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/><path d="M19 4l2 2-2 2"/></svg></div>
+        <div>
+          <h3 data-lang="ko" class="kr">인물·제품 일관성</h3><h3 data-lang="en">Identity &amp; product consistency</h3>
+          <p data-lang="ko">모든 샷에서 같은 모델, 같은 제품으로 보이도록 기준을 고정하고 유지합니다.</p>
+          <p data-lang="en">Locks a reference for model and product so every shot looks like the same campaign.</p>
+        </div>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h10M7 11l10-5M7 13l10 5"/></svg></div>
+        <div>
+          <h3 data-lang="ko" class="kr">샷별 모델 라우팅</h3><h3 data-lang="en">Per-shot model routing</h3>
+          <p data-lang="ko">실사, 일러스트, 제품 컷처럼 샷의 성격에 맞춰 가장 적합한 이미지 모델로 보냅니다.</p>
+          <p data-lang="en">Routes each shot — photoreal, illustration, product — to the image model that fits it.</p>
+        </div>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9l-4.7 1.8L12 15.5l-1.8-4.7L5.5 9l4.7-1.3z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg></div>
+        <div>
+          <h3 data-lang="ko" class="kr">AI 크리에이티브 파트너</h3><h3 data-lang="en">AI creative partner</h3>
+          <p data-lang="ko">크리에이티브 디렉터, 포토그래퍼, 에디터 역할의 AI가 기획과 프롬프트 작성을 함께합니다.</p>
+          <p data-lang="en">AI in creative-director, photographer and editor roles co-plans and writes the prompts.</p>
+        </div>
+      </div>
+      <div class="feature reveal">
+        <div class="f-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></div>
+        <div>
+          <h3 data-lang="ko" class="kr">평가와 수정 가이드</h3><h3 data-lang="en">Evaluation &amp; revision guidance</h3>
+          <p data-lang="ko">결과가 브리프와 맞는지 확인하고, 어디를 어떻게 고칠지 구체적으로 알려 줍니다.</p>
+          <p data-lang="en">Checks results against the brief and tells you exactly what to fix and how.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDIO -->
+<section id="studio">
+  <div class="wrap">
+    <div class="eyebrow">Studio</div>
+    <h2 data-lang="ko" class="kr">캠페인을 한 화면에서</h2>
+    <h2 data-lang="en">Your campaign, in one workspace</h2>
+    <p class="lead" data-lang="ko">브리프, 스토리보드, 샷, 검수를 한 작업 공간에서 관리합니다.</p>
+    <p class="lead" data-lang="en">Manage briefs, storyboards, shots and review in a single workspace.</p>
+
+    <div class="studio reveal">
+      <div class="studio-bar"><i></i><i></i><i></i><span>shot_Flow Studio</span></div>
+      <div class="studio-body">
+        <div class="side">
+          <div class="side-h">Workspace</div>
+          <a href="#studio">Briefs</a>
+          <a href="#studio" class="on">Storyboard</a>
+          <a href="#studio">Shots</a>
+          <a href="#studio">Review</a>
+          <div class="side-h">Library</div>
+          <a href="#studio">Talent</a>
+          <a href="#studio">Products</a>
+          <a href="#studio">Styles</a>
+        </div>
+        <div class="main">
+          <div class="main-head">
+            <div>
+              <h4>Spring Daily Bag — Lookbook</h4>
+              <small>6 SHOTS · 2 SCENES</small>
+            </div>
+            <div class="pills"><span class="pill ok">Consistency ✓</span><span class="pill">Draft v3</span></div>
+          </div>
+          <div class="board">
+            <div class="shot"><div class="frame f1"><i></i></div><div class="shot-meta"><b>01 · WIDE</b><em data-lang="ko">출근길 횡단보도</em><em data-lang="en">Morning crosswalk</em></div></div>
+            <div class="shot"><div class="frame f3"><i></i></div><div class="shot-meta"><b>02 · MEDIUM</b><em data-lang="ko">카페 창가, 가방 클로즈업</em><em data-lang="en">Café window, bag close-up</em></div></div>
+            <div class="shot"><div class="frame f2"><i></i></div><div class="shot-meta"><b>03 · SELFIE</b><em data-lang="ko">엘리베이터 거울</em><em data-lang="en">Elevator mirror</em></div></div>
+            <div class="shot"><div class="frame f6"><i></i></div><div class="shot-meta"><b>04 · FULL</b><em data-lang="ko">주말 공원 피크닉</em><em data-lang="en">Weekend park picnic</em></div></div>
+          </div>
+          <div class="mock-note" data-lang="ko">* 예시 화면입니다</div>
+          <div class="mock-note" data-lang="en">* Illustrative mockup</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta alt">
+  <div class="wrap">
+    <div class="eyebrow">Private Beta</div>
+    <h2 data-lang="ko" class="kr">지금은 비공개로 개발 중입니다</h2>
+    <h2 data-lang="en">Currently in private development</h2>
+    <p class="lead" data-lang="ko">캠페인 제작 파일럿이나 협업에 관심이 있다면 편하게 연락해 주세요.</p>
+    <p class="lead" data-lang="en">Interested in a campaign pilot or collaboration? We'd love to hear from you.</p>
+    <div class="ctas">
+      <a href="mailto:flowlab@tinypia.com" class="btn btn-primary">flowlab@tinypia.com</a>
+      <a href="/" class="btn btn-ghost">← tiny_flowlab</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 tiny_flowlab · shot_Flow</span>
+  <a href="/">tiny_flowlab home</a>
+</footer>
+
+<script>
+function setLang(lang){
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.locale === lang));
+  try { localStorage.setItem('flowlab-lang', lang); } catch (e) {}
+}
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.locale)));
+try { const saved = localStorage.getItem('flowlab-lang'); if (saved) setLang(saved); } catch (e) {}
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

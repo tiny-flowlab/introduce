@@ -4,6 +4,14 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [0.7] — 2026-10-08
+### Added
+- `shot_flow/index.html` 랜딩 페이지 (/shot_flow/) — 대외 포지셔닝 기반 소개: Hero(TPU Builder 배지), 5단계 흐름, 기능 4종, 예시 Studio 목업, 파일럿 문의. 실제 내부 구조는 의도적으로 담지 않음
+### Changed
+- Works `shot_Flow` 카드를 전폭 Featured로 강조하고 랜딩 페이지로 연결 — 대표 프로젝트가 카드 목록에 묻히지 않도록
+
+---
+
 ## [0.6] — 2026-10-08
 ### Added
 - `shot_Flow` 비공개 카드 추가 (이미지 하네스 프로젝트, 대외 노출명) (tiny_brain 바로 다음) — 대외 제출 포지셔닝(LLM 네이티브 광고 제작 도구) 문구와 일치시킴
