@@ -5,7 +5,10 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 ---
 
 ## [2.2] — 2026-10-08
+### Added
+- About 아래 `Agents / 05 running` 블록 — 연구소에서 돌리는 에이전트(Hermes·Grok Bot·Muse·Dots·Hark)와 각자 맡은 일, 로컬 LLM(llama.cpp) 테스트 병행을 소개
 ### Changed
+- About Philosophy 문장이 모바일에서 단어 중간에 끊기지 않도록 keep-all 적용
 - Works에서 `resume_search` 제거, 비공개 `Community Manager`(AI놀이터 행사 운영 백오피스)·`Knowledge Base Tiny`(사람·AI 공용 지식저장소) 추가 — 공개 저장소보다 진행 중인 비공개 작업 비중이 커져 목록을 갱신
 
 ---

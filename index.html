@@ -166,9 +166,23 @@
     .profile-row dt { color: var(--quiet); font-size: .77rem; font-weight: 700; letter-spacing: .02em; }
     .profile-row dd { margin: 0; color: var(--text); font-size: .92rem; line-height: 1.6; font-weight: 600; }
     .philosophy { padding-top: 3px; }
+    .agents { position: relative; margin-top: clamp(56px, 8vw, 96px); }
+    .agents-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; margin-bottom: 24px; }
+    .agents-head .micro-label { color: var(--cyan); }
+    .agents-head p:not(.micro-label) { margin: 0; color: var(--muted); font-family: var(--kr); font-size: .95rem; line-height: 1.7; word-break: keep-all; max-width: 640px; }
+    .agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .agent { padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 14px; background: rgba(16,18,29,.72); }
+    .agent-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .agent-name { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -.03em; }
+    .agent-run { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan); font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    .agent-run::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px rgba(113,229,226,.7); animation: agent-pulse 2.4s ease-in-out infinite; }
+    @keyframes agent-pulse { 50% { opacity: .35; } }
+    .agent-maker { margin: 0 0 10px; color: var(--quiet); font-size: .7rem; font-weight: 700; letter-spacing: .06em; }
+    .agent p.lang-block { margin: 0; color: var(--muted); font-family: var(--kr); font-size: .86rem; line-height: 1.65; word-break: keep-all; }
+    @media (prefers-reduced-motion: reduce) { .agent-run::before { animation: none; } }
     .philosophy .micro-label { color: var(--violet); }
     .philosophy-lines { margin-top: 25px; padding-left: clamp(18px, 3vw, 38px); border-left: 1px solid rgba(181,162,255,.5); }
-    .philosophy-lines p { margin: 0; color: #e2e4ef; font-family: var(--kr); font-size: clamp(1.18rem, 2.2vw, 1.75rem); line-height: 1.9; letter-spacing: -.045em; font-weight: 500; }
+    .philosophy-lines p { word-break: keep-all; margin: 0; color: #e2e4ef; font-family: var(--kr); font-size: clamp(1.18rem, 2.2vw, 1.75rem); line-height: 1.9; letter-spacing: -.045em; font-weight: 500; }
     .philosophy-lines .lang-block[data-lang="en"] { font-family: var(--sans); letter-spacing: -.03em; }
 
     .works-section { background: var(--ink); }
@@ -393,6 +407,20 @@
               <div class="lang-block" data-lang="ko" lang="ko"><p>일상의 작은 루틴과 흐름을 모아,</p><p>거대한 몰입으로 이끌어 가는 것을 위해</p><p>오늘도 그냥 떠오르는 생각과 작은 호기심을 기반으로</p><p>만들고 정리하는 것을 목표로 합니다.</p></div>
               <div class="lang-block" data-lang="en" lang="en"><p>Gathering small daily routines and flows,</p><p>guiding them toward massive immersion.</p><p>Every day, fueled by spontaneous thoughts and curiosity,</p><p>I build and organize — that is the goal.</p></div>
             </div>
+          </div>
+        </div>
+        <div class="agents" aria-labelledby="agents-title">
+          <div class="agents-head">
+            <p class="micro-label" id="agents-title">Agents / 05 running</p>
+            <p class="lang-block" data-lang="ko" lang="ko">연구소에서 함께 일하는 에이전트들입니다. 각자 맡은 일을 돌리면서 llama.cpp 등 로컬 LLM 테스트도 함께 합니다.</p>
+            <p class="lang-block" data-lang="en" lang="en">The agents working alongside the lab. Each runs its own tasks, and together they also drive local LLM tests such as llama.cpp.</p>
+          </div>
+          <div class="agent-grid">
+            <article class="agent"><div class="agent-top"><h3 class="agent-name">Hermes</h3><span class="agent-run">Running</span></div><p class="agent-maker">Nous Research · self-hosted</p><p class="lang-block" data-lang="ko" lang="ko">연구소의 주력 에이전트. 여러 서버에서 돌리며 로컬 LLM 생성·테스트를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">The lab&#39;s main agent, running across several servers and handling local LLM generation &amp; tests.</p></article>
+            <article class="agent"><div class="agent-top"><h3 class="agent-name">Grok Bot</h3><span class="agent-run">Running</span></div><p class="agent-maker">xAI</p><p class="lang-block" data-lang="ko" lang="ko">클라우드 컴퓨터에서 상시 일하는 팀원. 웹 조사와 반복 작업을 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">An always-on teammate on its own cloud computer, handling web research and repetitive work.</p></article>
+            <article class="agent"><div class="agent-top"><h3 class="agent-name">Muse</h3><span class="agent-run">Running</span></div><p class="agent-maker">Meta</p><p class="lang-block" data-lang="ko" lang="ko">개인 에이전트. 일상 업무와 정리를 돕습니다.</p><p class="lang-block" data-lang="en" lang="en">A personal agent helping with everyday tasks and organizing.</p></article>
+            <article class="agent"><div class="agent-top"><h3 class="agent-name">Dots</h3><span class="agent-run">Running</span></div><p class="agent-maker">OpenAI</p><p class="lang-block" data-lang="ko" lang="ko">진행 중인 프로젝트를 이어 받아 다음 단계를 챙기는 상시 에이전트.</p><p class="lang-block" data-lang="en" lang="en">An always-on agent that picks up ongoing projects and moves them to the next step.</p></article>
+            <article class="agent"><div class="agent-top"><h3 class="agent-name">Hark</h3><span class="agent-run">Running</span></div><p class="agent-maker">Handoff · browser agent</p><p class="lang-block" data-lang="ko" lang="ko">실제 웹사이트를 다루는 브라우저 에이전트. 웹 작업 자동화를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">A browser agent that works real websites, automating web tasks.</p></article>
           </div>
         </div>
       </div>
