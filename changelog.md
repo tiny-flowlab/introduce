@@ -6,7 +6,7 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ## [2.2] — 2026-10-08
 ### Changed
-- Works에서 `resume_search` 제거, 비공개 `Knowledge Base Tiny`(사람·AI 공용 지식저장소) 추가 — 공개 저장소보다 진행 중인 비공개 작업 비중이 커져 목록을 갱신
+- Works에서 `resume_search` 제거, 비공개 `Community Manager`(AI놀이터 행사 운영 백오피스)·`Knowledge Base Tiny`(사람·AI 공용 지식저장소) 추가 — 공개 저장소보다 진행 중인 비공개 작업 비중이 커져 목록을 갱신
 
 ---
 
