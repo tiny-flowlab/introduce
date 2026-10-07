@@ -129,6 +129,7 @@ section{min-height:100vh;position:relative}
 .tag-fastapi{color:#7acca8;border-color:rgba(122,204,168,.2);background:rgba(122,204,168,.05)}
 .tag-private{color:#c9956a;border-color:rgba(201,149,106,.2);background:rgba(201,149,106,.05)}
 .tag-nextjs{color:#8fccb8;border-color:rgba(143,204,184,.2);background:rgba(143,204,184,.05)}
+.tag-js{color:#d9cc7a;border-color:rgba(217,204,122,.2);background:rgba(217,204,122,.05)}
 .card-lock{display:flex;align-items:center;gap:.3rem;font-family:var(--mono);font-size:.65rem;color:var(--text-faint);letter-spacing:.06em}
 .card-lock svg{width:11px;height:11px;stroke:var(--text-faint);fill:none;stroke-width:2;flex-shrink:0}
 .card-date{font-family:var(--mono);font-size:.62rem;color:var(--text-faint);margin-top:.6rem;letter-spacing:.04em}
@@ -317,7 +318,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">개인 지식 아카이브와 인사이트 발행을 자동화하는 AI 통합 파이프라인 시스템. 다양한 소스에서 정보를 수집·분석·구조화하여 Flowlab 커뮤니티로 발행하는 흐름을 하나로 연결한다.</p>
         <p class="card-desc" data-lang="en">An integrated AI pipeline system automating personal knowledge archiving and insight publishing. Connects collection, analysis, and distribution into a single continuous flow toward the Flowlab community.</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
-        <div class="card-date">Updated 2026.04.21</div>
+        <div class="card-date">Updated 2026.10.08</div>
       </div>
 
       <!-- tiny_brain support projects -->
@@ -330,7 +331,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">다양한 소스에서 인사이트를 추출하고 Flowlab에 자동 발행하는 AI 파이프라인</p>
         <p class="card-desc" data-lang="en">AI pipeline that extracts insights from multiple sources and auto-publishes to Flowlab</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
-        <div class="card-date">Updated 2026.04.21</div>
+        <div class="card-date">Updated 2026.10.03</div>
       </div>
 
       <div class="work-card reveal reveal-delay-3">
@@ -342,7 +343,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">AI 커뮤니티 플랫폼 — 게시판·댓글·RSVP·큐레이션 풀스택 앱</p>
         <p class="card-desc" data-lang="en">AI community platform — boards, comments, RSVP &amp; curation full-stack app</p>
         <div class="card-tags"><span class="tag tag-nextjs">Next.js</span><span class="tag tag-ai">AI</span><span class="tag tag-private">개발 중</span></div>
-        <div class="card-date">Updated 2026.04.16</div>
+        <div class="card-date">Updated 2026.07.13</div>
       </div>
 
       <div class="work-card reveal reveal-delay-4">
@@ -354,7 +355,7 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
         <p class="card-desc" data-lang="ko">tiny_brain 전체 파이프라인 상태 시각화 모니터링 대시보드</p>
         <p class="card-desc" data-lang="en">Monitoring dashboard for the tiny_brain pipeline architecture</p>
         <div class="card-tags"><span class="tag tag-python">Python</span><span class="tag tag-fastapi">FastAPI</span><span class="tag tag-private">개발 중</span></div>
-        <div class="card-date">Updated 2026.04.15</div>
+        <div class="card-date">Updated 2026.10.03</div>
       </div>
 
       <!-- chatbot server -->
@@ -372,6 +373,18 @@ footer p{font-family:var(--mono);font-size:.7rem;color:var(--text-faint);letter-
 
       <!-- public repos: newest first -->
       <div class="work-card reveal reveal-delay-2">
+        <div class="card-top">
+          <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></div>
+          <div class="card-links"><a href="https://github.com/tiny-flowlab/agy-statusline-custom" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>
+        </div>
+        <h3 class="card-title">agy-statusline-custom</h3>
+        <p class="card-desc" data-lang="ko">Antigravity CLI용 3줄 터미널 상태바 — 사용량·비용·서브에이전트·컨텍스트 실시간 표시</p>
+        <p class="card-desc" data-lang="en">3-line terminal status bar for Antigravity CLI — live usage, cost, subagent &amp; context tracking</p>
+        <div class="card-tags"><span class="tag tag-js">JavaScript</span><span class="tag tag-shell">CLI</span><span class="tag tag-ai">AI</span></div>
+        <div class="card-date">Updated 2026.05.24</div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-1">
         <div class="card-top">
           <div class="card-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
           <div class="card-links"><a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" class="card-link" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a></div>

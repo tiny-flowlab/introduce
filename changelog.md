@@ -4,6 +4,17 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [0.6] — 2026-10-08
+### Added
+- `agy-statusline-custom` 공개 저장소 카드 추가 (Antigravity CLI 상태바, 2026.05.24) — 공개 저장소 그룹 최상단
+- CSS: `tag-js`
+### Changed
+- 비공개 프로젝트 최종 커밋 날짜 갱신 (4월 이후 반년간 작업 반영)
+  - `tiny_brain` 10.08 / `find_insight_writer` 10.03 / `flowlab_community` 07.13 / `status-dashboard` 10.03
+- fork 저장소(`StandRig`, `claude-code-system-prompts`)는 본인 작업이 아니어서 제외
+
+---
+
 ## [0.5] — 2026-04-22
 ### Changed
 - Works 카드 순서 재정렬
