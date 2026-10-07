@@ -93,7 +93,7 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 ### Infrastructure
 - Cloudflare Tunnel 연동 완료 (포트 40080, 토큰 모드)
 - Caddy 정적 파일 서버 설정 (`caddy-flowlab.service`)
-- 도메인: `flowlab.tinypia.com`
+- 도메인: `flowlab.tinypia.com` (→ 2026-10 기준 `tiny-flowlab.com`으로 이전, 구 도메인은 리다이렉트)
 
 ---
 
