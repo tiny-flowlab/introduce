@@ -8,6 +8,7 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 ### Added
 - `shot_Flow` 비공개 카드 추가 (이미지 하네스 프로젝트, 대외 노출명) (tiny_brain 바로 다음) — 대외 제출 포지셔닝(LLM 네이티브 광고 제작 도구) 문구와 일치시킴
 - `agy-statusline-custom` 공개 저장소 카드 추가 (Antigravity CLI 상태바, 2026.05.24) — 공개 저장소 그룹 최상단
+- About 터미널 `whoami`에 `Program: Google TPU Builder Program` 참여 줄 추가 (KO/EN)
 - CSS: `tag-js`
 ### Changed
 - 비공개 프로젝트 최종 커밋 날짜 갱신 (4월 이후 반년간 작업 반영)
