@@ -12,3 +12,4 @@ index_backup_*.html
 index_new*.html
 .vscode/
 .claude/
+changelog.md
