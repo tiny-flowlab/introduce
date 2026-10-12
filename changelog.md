@@ -4,6 +4,16 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.5] — 2026-10-12
+### Changed
+- 홈 디자인 다듬기 — CI v8 반영 뒤 빈 여백이 많고 Works가 글자뿐이라 한 번 더 정리
+  - 섹션·Contact 세로 패딩 축소, 섹션 머리 한 줄 문구를 제목 아래로 붙여 시선 이동을 줄임
+  - Works 대표 패널(tiny_brain·shot_Flow) 상단에 v8 썸네일(`assets/works/`)
+  - Lab 목록 데스크톱 2열 + 행 높이 축소(세로 길이 감소), 모바일은 1열 유지
+  - 헤더 워드마크 앞에 v8 축약 심볼(`logo_v8_symbol_white.svg`) — 120px 미만이라 CI 규정대로 compact 사용
+
+---
+
 ## [2.4] — 2026-10-12
 ### Changed
 - CI v8 반영(원본 `flowlab-artifact` 태그 `ci-v8`) — 홈페이지가 확정된 CI와 다른 예전 로고를 쓰고 있어 정본으로 맞춤

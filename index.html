@@ -83,8 +83,9 @@
       justify-content: space-between;
       gap: 24px;
     }
-    .wordmark { color: var(--text); text-decoration: none; font-size: .96rem; font-weight: 800; letter-spacing: -.055em; white-space: nowrap; }
-    .wordmark span { color: var(--quiet); font-weight: 500; letter-spacing: -.02em; }
+    .wordmark { display: inline-flex; align-items: center; color: var(--text); text-decoration: none; font-size: .96rem; font-weight: 800; letter-spacing: -.055em; white-space: nowrap; }
+    .wordmark-mark { flex: none; width: 22px; height: 22px; margin-right: 10px; }
+    .wordmark span { margin-left: .35em; color: var(--quiet); font-weight: 500; letter-spacing: -.02em; }
     .header-right, .primary-nav, .language-switch { display: flex; align-items: center; }
     .header-right { gap: clamp(18px, 3.2vw, 46px); }
     .primary-nav { gap: clamp(16px, 2.2vw, 30px); }
@@ -152,11 +153,11 @@
     @keyframes mark-in { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(.98); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
 
     .content-wrap { width: min(calc(100% - (2 * var(--gutter))), 1240px); margin: 0 auto; }
-    .section { position: relative; padding: clamp(94px, 12vw, 170px) 0; }
-    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; margin-bottom: clamp(42px, 6vw, 74px); }
+    .section { position: relative; padding: clamp(72px, 8vw, 116px) 0; }
+    .section-heading { display: block; margin-bottom: clamp(36px, 5vw, 60px); }
     .section-heading h2 { margin: 12px 0 0; font-size: clamp(2.6rem, 5vw, 4.65rem); line-height: 1; letter-spacing: -.085em; font-weight: 600; }
     .section-heading h2 span { color: var(--violet); }
-    .section-heading > p { max-width: 400px; margin: 0 0 4px; color: var(--muted); font-family: var(--kr); font-size: .94rem; line-height: 1.8; }
+    .section-heading > p { max-width: 560px; margin: 16px 0 0; color: var(--muted); font-family: var(--kr); font-size: .94rem; line-height: 1.8; }
     .section-heading > p[lang="en"] { font-family: var(--sans); }
 
     .about-section { overflow: hidden; background: linear-gradient(180deg, #090a12 0%, #0a0b13 100%); border-top: 1px solid rgba(255,255,255,.035); border-bottom: 1px solid rgba(255,255,255,.035); }
@@ -189,16 +190,15 @@
     .philosophy-lines .lang-block[data-lang="en"] { font-family: var(--sans); letter-spacing: -.03em; }
 
     .works-section { background: var(--ink); }
-    .works-section .section-heading { align-items: end; }
     .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .feature-panel {
       position: relative;
       isolation: isolate;
-      min-height: 376px;
+      --pad: clamp(25px, 3.3vw, 46px);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: clamp(25px, 3.3vw, 46px);
+      padding: var(--pad);
       border: 1px solid rgba(225,231,255,.12);
       border-radius: 5px;
       background: linear-gradient(145deg, rgba(18, 23, 36, .98), rgba(13, 14, 24, .98));
@@ -209,6 +209,9 @@
     .feature-panel:hover { transform: translateY(-4px); border-color: rgba(113,229,226,.42); }
     .feature-panel:hover::before { transform: scale(1.12); }
     .feature-panel.featured { border-color: rgba(181,162,255,.34); }
+    .feature-media { display: block; margin: calc(var(--pad) * -1) calc(var(--pad) * -1) 28px; aspect-ratio: 5 / 2; overflow: hidden; border-bottom: 1px solid var(--line); }
+    .feature-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; transition: transform .5s ease; }
+    .feature-panel:hover .feature-media img { transform: scale(1.03); }
     .feature-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
     .feature-kicker { color: var(--quiet); }
     .feature-label { color: var(--violet); font-size: .64rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
@@ -225,8 +228,8 @@
     .tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
     .tag { display: inline-flex; align-items: center; min-height: 25px; padding: 2px 9px; border: 1px solid rgba(224,230,255,.15); border-radius: 2px; color: #d2d6e3; font-size: .66rem; line-height: 1.35; font-weight: 700; }
     .tag.dev { color: var(--cyan); border-color: rgba(113,229,226,.25); }
-    .project-index { margin-top: clamp(62px, 8vw, 102px); border-top: 1px solid var(--line); }
-    .work-row { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 22px; padding: 28px 0 27px; border-bottom: 1px solid var(--line); transition: padding .22s ease; }
+    .project-index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; margin-top: clamp(62px, 8vw, 102px); border-top: 1px solid var(--line); }
+    .work-row { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 22px; padding: 22px 0 21px; border-bottom: 1px solid var(--line); transition: padding .22s ease; }
     .work-row:hover { padding-left: 8px; }
     .work-index { padding-top: 5px; color: var(--quiet); font-size: .65rem; letter-spacing: .08em; }
     .work-main { min-width: 0; }
@@ -236,13 +239,13 @@
     .row-links a { color: var(--cyan); text-decoration: none; font-size: .72rem; font-weight: 800; transition: color .2s ease; }
     .row-links a:hover { color: var(--text); }
     .visibility { color: #d0c8f6; font-size: .68rem; font-weight: 700; }
-    .work-description { max-width: 870px; margin: 8px 0 15px; color: var(--muted); font-family: var(--kr); font-size: .84rem; line-height: 1.75; letter-spacing: -.02em; }
+    .work-description { max-width: 870px; margin: 6px 0 12px; color: var(--muted); font-family: var(--kr); font-size: .84rem; line-height: 1.75; letter-spacing: -.02em; }
     .work-description[lang="en"] { font-family: var(--sans); letter-spacing: -.01em; }
     .row-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 11px 20px; }
     .row-meta .tag-list { gap: 6px; }
     .updated { color: var(--quiet); font-size: .66rem; line-height: 1.5; font-weight: 700; letter-spacing: .035em; white-space: nowrap; }
 
-    .contact-section { overflow: hidden; padding: clamp(104px, 14vw, 190px) 0; text-align: center; border-top: 1px solid var(--line); background: radial-gradient(ellipse 40% 65% at 50% 100%, rgba(89,73,157,.17), transparent 76%), radial-gradient(ellipse 28% 44% at 78% 0%, rgba(52,162,173,.1), transparent 75%), #090a12; }
+    .contact-section { overflow: hidden; padding: clamp(80px, 9vw, 128px) 0; text-align: center; border-top: 1px solid var(--line); background: radial-gradient(ellipse 40% 65% at 50% 100%, rgba(89,73,157,.17), transparent 76%), radial-gradient(ellipse 28% 44% at 78% 0%, rgba(52,162,173,.1), transparent 75%), #090a12; }
     .contact-section .section-kicker { color: var(--violet); }
     .contact-section h2 { margin: 20px 0 14px; font-size: clamp(2.65rem, 6.3vw, 5.3rem); line-height: 1.05; letter-spacing: -.085em; font-weight: 600; }
     .contact-section h2 span { color: var(--cyan); }
@@ -264,8 +267,8 @@
       .hero-mark { min-height: 280px; }
       .hero-mark::before { width: min(42vw, 390px); }
       .hero-mark::after { width: min(34vw, 320px); }
+      .project-index { grid-template-columns: minmax(0, 1fr); }
       .about-grid { gap: 48px; grid-template-columns: minmax(230px, .8fr) minmax(0, 1.2fr); }
-      .feature-panel { min-height: 395px; }
     }
     @media (max-width: 700px) {
       :root { --gutter: 18px; }
@@ -291,7 +294,7 @@
       .hero-cta { min-height: 48px; margin-top: 21px; }
       .hero-scroll { right: var(--gutter); bottom: 20px; font-size: .58rem; }
       .hero-scroll::after { width: 35px; }
-      .section { padding: 79px 0; }
+      .section { padding: 64px 0; }
       .section-heading { display: block; margin-bottom: 37px; }
       .section-heading h2 { margin-top: 9px; font-size: 3rem; }
       .section-heading > p { margin-top: 14px; font-size: .85rem; }
@@ -302,7 +305,7 @@
       .philosophy-lines { margin-top: 18px; padding-left: 17px; }
       .philosophy-lines p { font-size: 1.1rem; line-height: 1.9; }
       .feature-grid { grid-template-columns: minmax(0,1fr); gap: 12px; }
-      .feature-panel { min-height: 0; padding: 24px 20px; }
+      .feature-panel { --pad: 20px; padding: var(--pad); }
       .feature-panel h3 { margin: 29px 0 12px; font-size: 1.85rem; }
       .feature-panel .description { font-size: .83rem; }
       .feature-bottom { padding-top: 24px; gap: 12px; }
@@ -316,7 +319,7 @@
       .work-description { margin-top: 8px; font-size: .8rem; }
       .row-meta { align-items: start; flex-direction: column; gap: 10px; }
       .updated { font-size: .63rem; }
-      .contact-section { padding: 100px 0; }
+      .contact-section { padding: 80px 0; }
       .contact-section h2 { font-size: clamp(2.65rem, 12vw, 3.8rem); }
       .contact-copy { font-size: .87rem; }
       .contact-actions { flex-direction: column; gap: 18px; margin-top: 29px; }
@@ -361,7 +364,7 @@
     </svg>
 
     <header class="site-header">
-      <a class="wordmark" href="#home" aria-label="tiny_flowlab home">tiny_flowlab <span>/ 작은흐름 연구소</span></a>
+      <a class="wordmark" href="#home" aria-label="tiny_flowlab home"><img class="wordmark-mark" src="./assets/logo_v8_symbol_white.svg" alt="" width="22" height="22">tiny_flowlab <span>/ 작은흐름 연구소</span></a>
       <div class="header-right">
         <nav class="primary-nav" aria-label="Main navigation">
           <a href="#about">About</a><a href="#works">Works</a><a href="#contact">Contact</a>
@@ -439,6 +442,7 @@
 
         <div class="feature-grid">
           <article class="feature-panel" aria-labelledby="tiny-brain-title">
+            <a class="feature-media" href="./tiny_brain/" tabindex="-1" aria-hidden="true"><img src="./assets/works/tiny_brain.png" alt="" width="800" height="450" loading="lazy"></a>
             <div class="feature-top"><p class="feature-kicker">01 / Overview</p><span class="feature-status">Private</span></div>
             <h3 id="tiny-brain-title"><a href="./tiny_brain/">tiny_brain <span aria-hidden="true">↗</span></a></h3>
             <p class="description lang-block" data-lang="ko" lang="ko">개인 지식 아카이브와 인사이트 발행을 자동화하는 AI 통합 파이프라인 시스템. 다양한 소스에서 정보를 수집·분석·구조화하여 Flowlab 커뮤니티로 발행하는 흐름을 하나로 연결한다. 구성: find_insight_writer · flowlab_community · status-dashboard</p>
@@ -450,6 +454,7 @@
           </article>
 
           <article class="feature-panel featured" aria-labelledby="shot-flow-title">
+            <a class="feature-media" href="./shot_flow/" tabindex="-1" aria-hidden="true"><img src="./assets/works/shot_flow.png" alt="" width="800" height="450" loading="lazy"></a>
             <div class="feature-top"><p class="feature-kicker">02 / Featured project</p><span class="feature-label">Featured</span></div>
             <h3 id="shot-flow-title"><a href="./shot_flow/">shot_Flow <span aria-hidden="true">↗</span></a></h3>
             <p class="description lang-block" data-lang="ko" lang="ko">자연어 캠페인 브리프를 에디토리얼 컨셉·스토리보드·샷 플랜·비주얼 컨셉으로 바꾸는 LLM 네이티브 광고 제작 도구. 샷 전반에서 인물·제품 일관성을 유지하고 샷마다 적합한 이미지 모델로 라우팅한다.</p>
