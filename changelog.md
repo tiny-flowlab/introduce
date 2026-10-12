@@ -4,6 +4,18 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.4] — 2026-10-12
+### Changed
+- CI v8 반영(원본 `flowlab-artifact` 태그 `ci-v8`) — 홈페이지가 확정된 CI와 다른 예전 로고를 쓰고 있어 정본으로 맞춤
+  - 히어로 로고: `logo_white.png` → v8 세로 조합 `logo_v8_vertical_white.svg`. 정사각형 히어로 자리에 맞춰 세로 조합을 쓰고, CI 규정(로고 글로우 금지)에 따라 drop-shadow 제거
+  - 파비콘: SVG+ICO 세트로 교체(홈·shot_flow·tiny_brain), `favicon.png`·`apple-touch-icon.png`는 같은 이름으로 v8 버전 덮어쓰기
+  - OG 이미지(`og-home`·`og-shotflow`·`og-tinybrain`)를 v8 로고가 들어간 버전으로 교체(파일명 유지, SNS 캐시는 공유 디버거로 갱신 필요)
+### Added
+- Agents 블록 카드 5개에 v8 에이전트 아이콘(`assets/agents/*.png`)
+- 예전 `logo_*.png`는 v1 아카이브가 쓰므로 유지
+
+---
+
 ## [2.3] — 2026-10-08
 ### Changed
 - shot_Flow 랜딩 Studio 섹션: CSS 자리표시 목업을 데모 스크린샷(`assets/shotflow-demo.jpg`)으로 교체 — 실제 하네스 화면은 내부 구조·페르소나가 드러나 쓸 수 없어, 순수 목업 UI에 Nano Banana 2.1로 생성한 다양한 가상 모델 룩북 6컷(같은 가방)을 넣어 일관성 기능을 보여줌. "예시 화면·가상 모델" 표기 유지

@@ -6,7 +6,8 @@
   <meta name="theme-color" content="#07080f">
   <title>tiny_flowlab — 작은흐름 연구소</title>
   <meta name="description" content="작은 흐름이 만드는 거대한 몰입. 몰입을 돕는 도구와 서비스를 찾아가는 Tiny의 작은 연구소입니다.">
-  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="tiny_flowlab">
@@ -144,7 +145,7 @@
     .hero-mark::before, .hero-mark::after { content: ''; position: absolute; z-index: -1; border: 1px solid rgba(113,229,226,.14); border-radius: 50%; transform: rotate(-18deg); }
     .hero-mark::before { width: min(34vw, 440px); aspect-ratio: 1; }
     .hero-mark::after { width: min(28vw, 360px); aspect-ratio: 1; border-color: rgba(181,162,255,.17); transform: rotate(36deg) scaleX(1.25); }
-    .hero-mark img { width: min(100%, 470px); height: auto; filter: drop-shadow(0 0 42px rgba(122, 195, 226, .11)); }
+    .hero-mark img { width: min(100%, 360px); height: auto; }
     .hero-scroll { position: absolute; right: var(--gutter); bottom: 29px; display: flex; align-items: center; gap: 13px; color: var(--quiet); font-size: .65rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
     .hero-scroll::after { content: ''; width: 53px; height: 1px; background: linear-gradient(90deg, var(--cyan), transparent); }
     @keyframes rise-in { from { opacity: 0; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
@@ -173,6 +174,8 @@
     .agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
     .agent { padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 14px; background: rgba(16,18,29,.72); }
     .agent-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .agent-id { display: flex; align-items: center; gap: 10px; }
+    .agent-icon { flex: none; width: 36px; height: 36px; }
     .agent-name { margin: 0; font-size: 1.05rem; font-weight: 800; letter-spacing: -.03em; }
     .agent-run { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan); font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
     .agent-run::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px rgba(113,229,226,.7); animation: agent-pulse 2.4s ease-in-out infinite; }
@@ -277,7 +280,7 @@
       .hero { min-height: 100svh; }
       .hero-main { width: 100%; padding-top: 21px; padding-bottom: 76px; grid-template-columns: minmax(0, 1fr); gap: 8px; }
       .hero-mark { grid-row: 1; min-height: auto; height: 166px; margin: 0 0 18px; }
-      .hero-mark img { width: min(67vw, 270px); }
+      .hero-mark img { width: 150px; }
       .hero-mark::before { width: 194px; }
       .hero-mark::after { width: 154px; }
       .hero-copy { grid-row: 2; }
@@ -381,7 +384,7 @@
         <a class="hero-cta lang-inline" data-lang="ko" href="#works" lang="ko">작업 확인하기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
         <a class="hero-cta lang-inline" data-lang="en" href="#works" lang="en">Explore works <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="hero-mark"><img src="./assets/logo_white.png" alt="작은흐름 연구소 / tiny_flowlab"></div>
+      <div class="hero-mark"><img src="./assets/logo_v8_vertical_white.svg" alt="작은흐름 연구소 / tiny_flowlab"></div>
     </div>
     <div class="hero-scroll" aria-hidden="true">Follow the flow</div>
   </section>
@@ -416,11 +419,11 @@
             <p class="lang-block" data-lang="en" lang="en">The agents working alongside the lab. Each runs its own tasks, and together they also drive local LLM tests such as llama.cpp.</p>
           </div>
           <div class="agent-grid">
-            <article class="agent"><div class="agent-top"><h3 class="agent-name">Hermes</h3><span class="agent-run">Running</span></div><p class="agent-maker">Nous Research · self-hosted</p><p class="lang-block" data-lang="ko" lang="ko">연구소의 주력 에이전트. 여러 서버에서 돌리며 로컬 LLM 생성·테스트를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">The lab&#39;s main agent, running across several servers and handling local LLM generation &amp; tests.</p></article>
-            <article class="agent"><div class="agent-top"><h3 class="agent-name">Grok Bot</h3><span class="agent-run">Running</span></div><p class="agent-maker">xAI</p><p class="lang-block" data-lang="ko" lang="ko">클라우드 컴퓨터에서 상시 일하는 팀원. 웹 조사와 반복 작업을 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">An always-on teammate on its own cloud computer, handling web research and repetitive work.</p></article>
-            <article class="agent"><div class="agent-top"><h3 class="agent-name">Muse</h3><span class="agent-run">Running</span></div><p class="agent-maker">Meta</p><p class="lang-block" data-lang="ko" lang="ko">개인 에이전트. 일상 업무와 정리를 돕습니다.</p><p class="lang-block" data-lang="en" lang="en">A personal agent helping with everyday tasks and organizing.</p></article>
-            <article class="agent"><div class="agent-top"><h3 class="agent-name">Dots</h3><span class="agent-run">Running</span></div><p class="agent-maker">OpenAI</p><p class="lang-block" data-lang="ko" lang="ko">진행 중인 프로젝트를 이어 받아 다음 단계를 챙기는 상시 에이전트.</p><p class="lang-block" data-lang="en" lang="en">An always-on agent that picks up ongoing projects and moves them to the next step.</p></article>
-            <article class="agent"><div class="agent-top"><h3 class="agent-name">Hark</h3><span class="agent-run">Running</span></div><p class="agent-maker">Handoff · browser agent</p><p class="lang-block" data-lang="ko" lang="ko">실제 웹사이트를 다루는 브라우저 에이전트. 웹 작업 자동화를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">A browser agent that works real websites, automating web tasks.</p></article>
+            <article class="agent"><div class="agent-top"><div class="agent-id"><img class="agent-icon" src="./assets/agents/hermes.png" alt="" width="36" height="36"><h3 class="agent-name">Hermes</h3></div><span class="agent-run">Running</span></div><p class="agent-maker">Nous Research · self-hosted</p><p class="lang-block" data-lang="ko" lang="ko">연구소의 주력 에이전트. 여러 서버에서 돌리며 로컬 LLM 생성·테스트를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">The lab&#39;s main agent, running across several servers and handling local LLM generation &amp; tests.</p></article>
+            <article class="agent"><div class="agent-top"><div class="agent-id"><img class="agent-icon" src="./assets/agents/grok.png" alt="" width="36" height="36"><h3 class="agent-name">Grok Bot</h3></div><span class="agent-run">Running</span></div><p class="agent-maker">xAI</p><p class="lang-block" data-lang="ko" lang="ko">클라우드 컴퓨터에서 상시 일하는 팀원. 웹 조사와 반복 작업을 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">An always-on teammate on its own cloud computer, handling web research and repetitive work.</p></article>
+            <article class="agent"><div class="agent-top"><div class="agent-id"><img class="agent-icon" src="./assets/agents/muse.png" alt="" width="36" height="36"><h3 class="agent-name">Muse</h3></div><span class="agent-run">Running</span></div><p class="agent-maker">Meta</p><p class="lang-block" data-lang="ko" lang="ko">개인 에이전트. 일상 업무와 정리를 돕습니다.</p><p class="lang-block" data-lang="en" lang="en">A personal agent helping with everyday tasks and organizing.</p></article>
+            <article class="agent"><div class="agent-top"><div class="agent-id"><img class="agent-icon" src="./assets/agents/dots.png" alt="" width="36" height="36"><h3 class="agent-name">Dots</h3></div><span class="agent-run">Running</span></div><p class="agent-maker">OpenAI</p><p class="lang-block" data-lang="ko" lang="ko">진행 중인 프로젝트를 이어 받아 다음 단계를 챙기는 상시 에이전트.</p><p class="lang-block" data-lang="en" lang="en">An always-on agent that picks up ongoing projects and moves them to the next step.</p></article>
+            <article class="agent"><div class="agent-top"><div class="agent-id"><img class="agent-icon" src="./assets/agents/hark.png" alt="" width="36" height="36"><h3 class="agent-name">Hark</h3></div><span class="agent-run">Running</span></div><p class="agent-maker">Handoff · browser agent</p><p class="lang-block" data-lang="ko" lang="ko">실제 웹사이트를 다루는 브라우저 에이전트. 웹 작업 자동화를 맡습니다.</p><p class="lang-block" data-lang="en" lang="en">A browser agent that works real websites, automating web tasks.</p></article>
           </div>
         </div>
       </div>
