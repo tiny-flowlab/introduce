@@ -4,6 +4,13 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.7] — 2026-10-12
+### Changed
+- 사이트 파일을 `public/`으로 분리하고 Caddy 웹 루트를 `public/`으로 변경 — 저장소 루트를 통째로 서빙하면서 숨김 목록(`hide`)으로 막던 방식이라, 새 파일이 생길 때마다 노출 위험이 있었음. 이제 `public/`에 있는 것만 서빙되는 허용 목록 방식
+- `tasks/`를 공개 저장소 추적에서 제외(.gitignore) — 내부 작업 메모·로컬 경로가 공개되고 있었음. 이전 커밋 기록에는 남아 있음
+
+---
+
 ## [2.6] — 2026-10-12
 ### Added
 - `robots.txt` — 기존에는 Cloudflare 관리형 주석만 있고 규칙이 없어 모든 봇에 열려 있었음. 검색·AI 열람(답변 참고)은 허용, AI 학습만 차단(`Content-Signal: ai-train=no` + 학습 전용 크롤러 Disallow)
