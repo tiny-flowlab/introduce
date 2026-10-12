@@ -4,6 +4,13 @@ All notable changes to the `introduce` repository (tiny-flowlab/introduce).
 
 ---
 
+## [2.6] — 2026-10-12
+### Added
+- `robots.txt` — 기존에는 Cloudflare 관리형 주석만 있고 규칙이 없어 모든 봇에 열려 있었음. 검색·AI 열람(답변 참고)은 허용, AI 학습만 차단(`Content-Signal: ai-train=no` + 학습 전용 크롤러 Disallow)
+- Caddy 접속 로그(JSON, `~/.local/state/caddy-flowlab/access.log`, 10MiB×5·30일) — 크롤러·AI 봇 방문을 직접 확인하기 위해. Caddyfile은 git 제외 파일이라 서버에만 반영
+
+---
+
 ## [2.5] — 2026-10-12
 ### Changed
 - 홈 디자인 다듬기 — CI v8 반영 뒤 빈 여백이 많고 Works가 글자뿐이라 한 번 더 정리

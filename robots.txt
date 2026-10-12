@@ -1,0 +1,16 @@
+# tiny-flowlab.com — 검색·AI 열람(답변 참고)은 허용, AI 학습은 차단
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+# 학습 전용 크롤러
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Meta-ExternalAgent
+User-agent: Bytespider
+User-agent: cohere-training-data-crawler
+Disallow: /
