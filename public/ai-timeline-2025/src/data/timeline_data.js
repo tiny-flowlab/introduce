@@ -620,7 +620,19 @@ const AI_TIMELINE_DATA = [
         "category": "coding",
         "title": "Gemini CLI 출시",
         "description": "구글이 터미널에서 직접 구동되는 오픈소스 AI 에이전트 Gemini CLI를 출시했습니다. 100만 토큰 컨텍스트를 활용한 코드베이스 분석을 지원합니다.",
-        "links": []
+        "connections": [
+            "evt_057"
+        ],
+        "links": [
+            {
+                "text": "요즘IT 리뷰",
+                "url": "https://yozm.wishket.com/magazine/detail/3216/"
+            },
+            {
+                "text": "Reddit AMA",
+                "url": "https://tiny.is-an.ai/Gemini-CLI-AMA_reddit"
+            }
+        ]
     },
     {
         "id": "evt_044",
@@ -659,20 +671,6 @@ const AI_TIMELINE_DATA = [
         ]
     },
     {
-        "id": "evt_045_new",
-        "date": "2025-07-03",
-        "type": "model",
-        "category": "open-source",
-        "title": "SKT A.X 4.0 공개",
-        "description": "SK텔레콤이 자체 개발한 한국어 특화 LLM 'A.X 4.0'을 오픈소스로 공개했습니다.",
-        "links": [
-            {
-                "text": "HuggingFace",
-                "url": "https://huggingface.co/skt/A.X-4.0"
-            }
-        ]
-    },
-    {
         "id": "evt_046",
         "date": "2025-07-04",
         "type": "model",
@@ -684,27 +682,6 @@ const AI_TIMELINE_DATA = [
             {
                 "text": "HuggingFace",
                 "url": "https://huggingface.co/microsoft/Phi-4-multimodal-instruct"
-            }
-        ]
-    },
-    {
-        "id": "evt_047",
-        "date": "2025-07-05",
-        "type": "tool",
-        "category": "agent",
-        "title": "Gemini CLI 출시",
-        "description": "구글이 터미널 환경에서 사용할 수 있는 오픈소스 AI 에이전트 'Gemini CLI'를 공개.",
-        "connections": [
-            "evt_057"
-        ],
-        "links": [
-            {
-                "text": "요즘IT 리뷰",
-                "url": "https://yozm.wishket.com/magazine/detail/3216/"
-            },
-            {
-                "text": "Reddit AMA",
-                "url": "https://tiny.is-an.ai/Gemini-CLI-AMA_reddit"
             }
         ]
     },
@@ -774,7 +751,7 @@ const AI_TIMELINE_DATA = [
         "title": "Gemini 2.5 Deep Think",
         "description": "구글이 추론 능력을 강화한 Gemini 2.5 Deep Think 모델을 배포 시작.",
         "connections": [
-            "evt_047"
+            "evt_043"
         ],
         "links": [
             {
@@ -865,7 +842,7 @@ const AI_TIMELINE_DATA = [
         "title": "Gemini CLI & Zed 통합",
         "description": "Gemini CLI가 Zed 에디터에 공식 통합되어 개발 환경 내 에이전트 기능 지원.",
         "connections": [
-            "evt_047"
+            "evt_043"
         ],
         "links": [
             {
