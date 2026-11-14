@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('timeline-track');
-    const modalOverlay = document.getElementById('modal-overlay');
+    const modal = document.getElementById('modal');
     const modalClose = document.getElementById('modal-close');
     const modalBody = document.getElementById('modal-body');
 
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="tag ${item.type}">${item.type}</span>
                 <span class="card-date">${formatDate(item.date)}</span>
             </div>
-            <h3 class="event-title">${item.title}</h3>
+            <h3 class="event-title"><button type="button" class="event-open">${item.title}</button></h3>
             <p class="event-desc">${item.description}</p>
         `;
 
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="tag ${item.type}">${item.type}</span>
                 <span class="card-date" style="color: var(--text-tertiary);">${formatDate(item.date)}</span>
             </div>
-            <h2 style="font-family: var(--font-heading); margin-bottom: 1rem; margin-top:0.5rem; color: ${typeColor};">${item.title}</h2>
+            <h2 id="modal-title" style="font-family: var(--font-heading); margin-bottom: 1rem; margin-top:0.5rem; color: ${typeColor};">${item.title}</h2>
             <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6;">${item.description}</p>
             
             ${item.metrics ? `
@@ -225,16 +225,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             ` : ''}
         `;
-        modalOverlay.classList.remove('hidden');
+        modal.showModal();
     }
 
-    modalClose.addEventListener('click', () => {
-        modalOverlay.classList.add('hidden');
-    });
+    modalClose.addEventListener('click', () => modal.close());
 
-    modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) modalOverlay.classList.add('hidden');
-    });
+    // closedby="any" 미지원 브라우저(Safari)용 바깥 클릭 닫기
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+        modal.addEventListener('click', (e) => {
+            if (e.target !== modal) return;
+            const r = modal.getBoundingClientRect();
+            const inside = r.top <= e.clientY && e.clientY <= r.bottom && r.left <= e.clientX && e.clientX <= r.right;
+            if (!inside) modal.close();
+        });
+    }
 
     // Helper to get color for modal dynamic styling (sync with CSS)
     function getTypeColor(type) {

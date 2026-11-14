@@ -204,8 +204,8 @@ footer a:hover{color:var(--text)}
       <a href="#contact">Contact</a>
     </div>
     <div class="lang-toggle">
-      <button class="lang-btn active" data-locale="ko">KO</button>
-      <button class="lang-btn" data-locale="en">EN</button>
+      <button type="button" class="lang-btn active" data-locale="ko" aria-pressed="true">KO</button>
+      <button type="button" class="lang-btn" data-locale="en" aria-pressed="false">EN</button>
     </div>
   </div>
 </nav>
@@ -392,7 +392,7 @@ footer a:hover{color:var(--text)}
 <script>
 function setLang(lang){
   document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.locale === lang));
+  document.querySelectorAll('.lang-btn').forEach(b => { const on = b.dataset.locale === lang; b.classList.toggle('active', on); b.setAttribute('aria-pressed', String(on)); });
   try { localStorage.setItem('flowlab-lang', lang); } catch (e) {}
 }
 document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.locale)));

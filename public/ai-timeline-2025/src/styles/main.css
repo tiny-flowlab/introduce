@@ -642,22 +642,18 @@ body {
 }
 
 /* Modal */
-#modal-overlay {
+#modal {
+    /* .glass-panel의 position: relative를 덮어써 top layer에서 뷰포트 중앙에 고정 */
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(8px);
+    margin: auto; /* 전역 리셋(* { margin: 0 })이 지운 dialog 기본 중앙 정렬 복원 */
+    color: inherit;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
-#modal-overlay.hidden {
-    display: none;
+#modal::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
 }
 
 .glass-panel {
@@ -680,6 +676,30 @@ body {
     color: var(--text-secondary);
     font-size: 2rem;
     cursor: pointer;
+}
+
+/* 카드 제목 버튼: 키보드·스크린리더 진입점. 모양은 기존 제목 그대로 */
+.event-open {
+    all: unset;
+    cursor: pointer;
+}
+
+.event-open:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .event-row {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    * {
+        transition: none !important;
+    }
 }
 
 @keyframes fadeInUp {
