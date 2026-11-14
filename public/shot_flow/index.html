@@ -190,11 +190,16 @@ footer a:hover{color:var(--text)}
 @media (max-width:480px){
   .steps{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){.flow-lines g{animation:none}.reveal{opacity:1;transform:none;transition:none}.brief-text .caret{animation:none}}
+@media (prefers-reduced-motion:reduce){.flow-lines g{animation:none}.reveal{opacity:1;transform:none;transition:none}.brief-text .caret{animation:none}html{scroll-behavior:auto}}
 /* 페이지 간 이동 시 크로스페이드(지원 브라우저만, 모션 줄이기 설정 존중) */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
 }
+.skip-link{position:absolute;left:1rem;top:1rem;z-index:1000;padding:.6rem 1rem;border-radius:8px;background:#fff;color:#07080f;font-weight:700;text-decoration:none;transform:translateY(-200%)}.skip-link:focus{transform:none}
+/* 조작 영역: 모든 기기 24px 이상(WCAG 2.5.8), 터치 기기는 44px */
+.nav-links a{padding-block:.3rem}
+@media (pointer:coarse){.lang-btn{min-width:44px;min-height:44px}.nav-links a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}}
+@media (pointer:coarse) and (max-width:768px){.hero{padding-top:8.8rem}}
 /* 여러 줄 제목의 줄 길이를 고르게 */
 h1, h2, h3 { text-wrap: balance; }
 </style>
@@ -203,6 +208,7 @@ h1, h2, h3 { text-wrap: balance; }
 </script>
 </head>
 <body>
+<a class="skip-link" href="#main"><span data-lang="ko">본문 바로가기</span><span data-lang="en">Skip to content</span></a>
 
 <nav>
   <a href="/" class="brand">
@@ -224,6 +230,7 @@ h1, h2, h3 { text-wrap: balance; }
 </nav>
 
 <!-- HERO -->
+<main id="main">
 <section class="hero">
   <svg class="flow-lines" viewBox="0 0 1600 940" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
@@ -396,6 +403,8 @@ h1, h2, h3 { text-wrap: balance; }
     </div>
   </div>
 </section>
+
+</main>
 
 <footer>
   <span>© 2026 tiny_flowlab · shot_Flow</span>

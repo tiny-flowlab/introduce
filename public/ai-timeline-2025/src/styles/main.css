@@ -57,7 +57,8 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--bg-secondary);
+    /* track(#0a0a0c) 대비 3.39:1 — 기존 #141419는 1.08:1 */
+    background: #64646f;
     border-radius: 4px;
 }
 
@@ -155,8 +156,8 @@ body {
 /* Quick Nav Bar */
 #quick-nav {
     position: fixed;
-    top: 100px;
-    /* Below new header */
+    /* 헤더 바로 아래. --header-h는 app.js가 실제 헤더 높이로 갱신(줄바꿈·터치 크기 대응) */
+    top: calc(var(--header-h, 102px) - 2px);
     left: 0;
     width: 100%;
     z-index: 99;
@@ -321,8 +322,8 @@ body {
 /* Timeline Container */
 #timeline-container {
     position: relative;
-    padding-top: 180px;
-    /* Header (~100px) + Quick Nav (~45px) + buffer */
+    padding-top: calc(var(--header-h, 102px) + var(--quicknav-h, 64px) + 14px);
+    /* Header + Quick Nav + buffer */
     padding-bottom: 10vh;
     min-height: 100vh;
     width: 100%;
@@ -342,8 +343,8 @@ body {
 /* Group Headers */
 .group-header {
     position: sticky;
-    top: 145px;
-    /* Below header + quick nav */
+    top: calc(var(--header-h, 102px) + var(--quicknav-h, 64px) + 6px);
+    /* Below header + quick nav (빠른 이동 바에 가려지지 않게) */
     background: rgba(10, 10, 12, 0.95);
     padding: 6px 16px;
     margin: var(--spacing-md) 0;
@@ -359,12 +360,13 @@ body {
     align-self: flex-start;
     border-radius: 20px;
     border: 1px solid var(--border-color);
-    scroll-margin-top: 120px;
+    scroll-margin-top: calc(var(--header-h, 102px) + var(--quicknav-h, 64px) + 6px);
     /* For anchor scroll offset */
 }
 
 /* Month Divider (All mode - subtle separator) */
 .month-divider {
+    font-weight: 400;
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
@@ -705,6 +707,38 @@ body {
     cursor: pointer;
 }
 
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 2000;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    background: #fff;
+    color: #0a0a0c;
+    font-weight: 700;
+    text-decoration: none;
+    transform: translateY(-200%);
+}
+
+.skip-link:focus {
+    transform: none;
+}
+
+/* 조작 영역: 터치 기기는 44px */
+.time-btn {
+    min-height: 24px;
+}
+
+@media (pointer: coarse) {
+    .time-btn,
+    .type-btn,
+    .nav-pill {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
 /* 카드 제목 버튼: 키보드·스크린리더 진입점. 모양은 기존 제목 그대로 */
 .event-open {
     all: unset;
@@ -718,6 +752,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
     .event-row {
         animation: none;
         opacity: 1;

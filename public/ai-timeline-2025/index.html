@@ -16,36 +16,37 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#timeline-container">Skip to timeline</a>
     <div id="app">
         <header class="main-header">
             <div class="header-top">
-                <div class="logo">
-                    <svg class="header-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <h1 class="logo">
+                    <svg class="header-logo" aria-hidden="true" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="40" height="40" rx="8" fill="#141419" stroke="#333" />
                         <path d="M12 20H28M12 20C12 15.5817 15.5817 12 20 12M12 20C12 24.4183 15.5817 28 20 28"
                             stroke="white" stroke-width="3" stroke-linecap="round" />
                         <circle cx="28" cy="20" r="3" fill="#6366f1" />
                     </svg>
                     AI TIMELINE <span class="accent">2025</span>
-                </div>
+                </h1>
                 <!-- Time Grouping (Secondary - Compact) -->
-                <div class="time-controls">
-                    <button class="time-btn" data-group="all">All</button>
-                    <button class="time-btn active" data-group="month">Month</button>
-                    <button class="time-btn" data-group="quarter">Quarter</button>
+                <div class="time-controls" role="group" aria-label="Group by">
+                    <button type="button" class="time-btn" aria-pressed="false" data-group="all">All</button>
+                    <button type="button" class="time-btn active" aria-pressed="true" data-group="month">Month</button>
+                    <button type="button" class="time-btn" aria-pressed="false" data-group="quarter">Quarter</button>
                 </div>
             </div>
             <!-- Type Filter (Primary - Full Width) -->
-            <div class="type-filters" id="type-filters">
-                <button class="type-btn active" data-type="all">All</button>
-                <button class="type-btn" data-type="model">Model</button>
-                <button class="type-btn" data-type="image">Image</button>
-                <button class="type-btn" data-type="video">Video</button>
-                <button class="type-btn" data-type="tool">Tool</button>
-                <button class="type-btn" data-type="news">News</button>
-                <button class="type-btn" data-type="hardware">Hardware</button>
-                <button class="type-btn" data-type="benchmark">Benchmark</button>
-                <button class="type-btn" data-type="platform">Platform</button>
+            <div class="type-filters" id="type-filters" role="group" aria-label="Filter by type">
+                <button type="button" class="type-btn active" aria-pressed="true" data-type="all">All</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="model">Model</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="image">Image</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="video">Video</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="tool">Tool</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="news">News</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="hardware">Hardware</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="benchmark">Benchmark</button>
+                <button type="button" class="type-btn" aria-pressed="false" data-type="platform">Platform</button>
             </div>
         </header>
 

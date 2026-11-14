@@ -1,6 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('timeline-track');
     const modal = document.getElementById('modal');
+
+    // 고정 헤더·빠른 이동 바의 실제 높이를 CSS 변수로 노출해 sticky 오프셋이 따라가게 함
+    const rootStyle = document.documentElement.style;
+    const header = document.querySelector('.main-header');
+    const quickNav = document.getElementById('quick-nav');
+    const syncOffsets = new ResizeObserver(() => {
+        rootStyle.setProperty('--header-h', `${header.offsetHeight}px`);
+        rootStyle.setProperty('--quicknav-h', `${quickNav.offsetHeight}px`);
+    });
+    syncOffsets.observe(header);
+    syncOffsets.observe(quickNav);
     const modalClose = document.getElementById('modal-close');
     const modalBody = document.getElementById('modal-body');
 
@@ -14,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const typeBtns = document.querySelectorAll('.type-btn');
         typeBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                typeBtns.forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
+                typeBtns.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', String(b === btn)); });
                 currentTypeFilter = e.target.dataset.type;
                 renderTimeline();
             });
@@ -25,8 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeBtns = document.querySelectorAll('.time-btn');
         timeBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                timeBtns.forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
+                timeBtns.forEach(b => { b.classList.toggle('active', b === btn); b.setAttribute('aria-pressed', String(b === btn)); });
                 currentGroupMode = e.target.dataset.group;
                 renderTimeline();
             });
@@ -63,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const groupId = `group-${index}`;
 
                 // Render Group Header
-                const headerEl = document.createElement('div');
+                const headerEl = document.createElement('h2');
                 headerEl.className = 'group-header';
                 headerEl.id = groupId;
                 headerEl.textContent = header;
@@ -98,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     const target = document.getElementById(group.id);
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
                     }
                 }, 50);
             });
@@ -146,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Insert divider when month changes
             if (lastMonth !== null && lastMonth !== itemMonth) {
-                const divider = document.createElement('div');
+                const divider = document.createElement('h2');
                 divider.className = 'month-divider';
                 divider.innerHTML = `<span>${itemMonth}</span>`;
                 track.appendChild(divider);
@@ -203,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             ${item.metrics ? `
                 <div style="margin-top: 1.5rem; background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; border-left: 2px solid ${typeColor};">
-                    <h4 style="color: var(--text-tertiary); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.75rem;">Benchmarks</h4>
+                    <h3 style="color: var(--text-tertiary); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.75rem;">Benchmarks</h3>
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
                         ${Object.entries(item.metrics).map(([key, val]) => `
                             <div>

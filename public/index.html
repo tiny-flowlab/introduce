@@ -342,6 +342,13 @@
     @media (prefers-reduced-motion: no-preference) {
       @view-transition { navigation: auto; }
     }
+    .skip-link{position:absolute;left:1rem;top:1rem;z-index:1000;padding:.6rem 1rem;border-radius:8px;background:#fff;color:#07080f;font-weight:700;text-decoration:none;transform:translateY(-200%)}.skip-link:focus{transform:none}
+    /* 조작 영역: 모든 기기 24px 이상(WCAG 2.5.8), 터치 기기는 44px */
+    .primary-nav a { padding-block: 4px; }
+    @media (pointer: coarse) {
+      .primary-nav a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding-block: 0; }
+      .language-switch button { min-width: 44px; min-height: 44px; }
+    }
     /* 여러 줄 제목의 줄 길이를 고르게 */
     h1, h2, h3 { text-wrap: balance; }
   </style>
@@ -350,6 +357,7 @@
 </script>
 </head>
 <body>
+  <a class="skip-link" href="#content"><span class="lang-inline" data-lang="ko" lang="ko">본문 바로가기</span><span class="lang-inline" data-lang="en" lang="en">Skip to content</span></a>
   <section class="hero" id="home" aria-labelledby="hero-title">
     <svg class="flow-lines" viewBox="0 0 1600 940" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
@@ -385,7 +393,7 @@
       </div>
     </header>
 
-    <div class="hero-main">
+    <div class="hero-main" id="content">
       <div class="hero-copy">
         <p class="eyebrow">PERSONAL RESEARCH LAB <span>·</span> 01 / FLOW</p>
         <h1 id="hero-title">Flow<br><span>Researcher</span></h1>
@@ -489,31 +497,31 @@
             </div>
           </article>
           <article class="work-row">
-            <span class="work-index">05</span><div class="work-main"><div class="work-head"><h3>chatbot-io-server</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/chatbot-io-server" target="_blank" rel="noopener">GitHub ↗</a></div></div>
+            <span class="work-index">05</span><div class="work-main"><div class="work-head"><h3>chatbot-io-server</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/chatbot-io-server" target="_blank" rel="noopener" aria-label="GitHub: chatbot-io-server">GitHub ↗</a></div></div>
               <p class="work-description lang-block" data-lang="ko" lang="ko">메신저 봇 미들웨어 서버 — 메시지 수신·자동응답·관리자 WebUI</p><p class="work-description lang-block" data-lang="en" lang="en">Messenger bot middleware — message handling, auto-reply &amp; admin WebUI</p>
               <div class="row-meta"><div class="tag-list"><span class="tag">Python</span><span class="tag">FastAPI</span></div><span class="updated">Updated 2026.03.25</span></div>
             </div>
           </article>
           <article class="work-row">
-            <span class="work-index">06</span><div class="work-main"><div class="work-head"><h3>agy-statusline-custom</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/agy-statusline-custom" target="_blank" rel="noopener">GitHub ↗</a></div></div>
+            <span class="work-index">06</span><div class="work-main"><div class="work-head"><h3>agy-statusline-custom</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/agy-statusline-custom" target="_blank" rel="noopener" aria-label="GitHub: agy-statusline-custom">GitHub ↗</a></div></div>
               <p class="work-description lang-block" data-lang="ko" lang="ko">Antigravity CLI용 3줄 터미널 상태바 — 사용량·비용·서브에이전트·컨텍스트 실시간 표시</p><p class="work-description lang-block" data-lang="en" lang="en">3-line terminal status bar for Antigravity CLI — live usage, cost, subagent &amp; context tracking</p>
               <div class="row-meta"><div class="tag-list"><span class="tag">JavaScript</span><span class="tag">CLI</span><span class="tag">AI</span></div><span class="updated">Updated 2026.05.24</span></div>
             </div>
           </article>
           <article class="work-row">
-            <span class="work-index">07</span><div class="work-main"><div class="work-head"><h3>wsl2-ai-dev-setup</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" target="_blank" rel="noopener">GitHub ↗</a></div></div>
+            <span class="work-index">07</span><div class="work-main"><div class="work-head"><h3>wsl2-ai-dev-setup</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/wsl2-ai-dev-setup" target="_blank" rel="noopener" aria-label="GitHub: wsl2-ai-dev-setup">GitHub ↗</a></div></div>
               <p class="work-description lang-block" data-lang="ko" lang="ko">WSL2 환경에서의 AI 개발 환경 구축 가이드</p><p class="work-description lang-block" data-lang="en" lang="en">AI dev environment setup guide on WSL2</p>
               <div class="row-meta"><div class="tag-list"><span class="tag">Shell</span><span class="tag">WSL2</span></div><span class="updated">Updated 2026.02.28</span></div>
             </div>
           </article>
           <article class="work-row">
-            <span class="work-index">08</span><div class="work-main"><div class="work-head"><h3>novel-studio-copilot-cli</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/novel-studio-copilot-cli" target="_blank" rel="noopener">GitHub ↗</a></div></div>
+            <span class="work-index">08</span><div class="work-main"><div class="work-head"><h3>novel-studio-copilot-cli</h3><div class="row-links"><a href="https://github.com/tiny-flowlab/novel-studio-copilot-cli" target="_blank" rel="noopener" aria-label="GitHub: novel-studio-copilot-cli">GitHub ↗</a></div></div>
               <p class="work-description lang-block" data-lang="ko" lang="ko">GitHub Copilot CLI 기반 AI 멀티에이전트 소설 창작 시스템</p><p class="work-description lang-block" data-lang="en" lang="en">AI multi-agent novel creation system for GitHub Copilot CLI</p>
               <div class="row-meta"><div class="tag-list"><span class="tag">Python</span><span class="tag">AI</span></div><span class="updated">Updated 2026.02.15</span></div>
             </div>
           </article>
           <article class="work-row">
-            <span class="work-index">09</span><div class="work-main"><div class="work-head"><h3>ai-timeline-2025</h3><div class="row-links"><a href="https://tiny-flowlab.com/ai-timeline-2025/" target="_blank" rel="noopener">Demo ↗</a><a href="https://github.com/tiny-flowlab/ai-timeline-2025" target="_blank" rel="noopener">GitHub ↗</a></div></div>
+            <span class="work-index">09</span><div class="work-main"><div class="work-head"><h3>ai-timeline-2025</h3><div class="row-links"><a href="https://tiny-flowlab.com/ai-timeline-2025/" target="_blank" rel="noopener" aria-label="Demo: ai-timeline-2025">Demo ↗</a><a href="https://github.com/tiny-flowlab/ai-timeline-2025" target="_blank" rel="noopener" aria-label="GitHub: ai-timeline-2025">GitHub ↗</a></div></div>
               <p class="work-description lang-block" data-lang="ko" lang="ko">2025년 AI 기술 타임라인 정리</p><p class="work-description lang-block" data-lang="en" lang="en">2025 AI technology timeline overview</p>
               <div class="row-meta"><div class="tag-list"><span class="tag">HTML</span><span class="tag">AI</span></div><span class="updated">Updated 2025.12.07</span></div>
             </div>
