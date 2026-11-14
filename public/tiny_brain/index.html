@@ -156,6 +156,13 @@ h2 .kr,.kr{font-family:var(--kr)}
 footer{border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--mono);font-size:.68rem;color:var(--text-faint);letter-spacing:.06em}
 footer a{text-decoration:none;color:var(--text-dim)}
 footer a:hover{color:var(--text)}
+.motion-toggle{min-height:24px;padding:.2rem .8rem;border:1px solid var(--border);border-radius:100px;background:transparent;color:var(--text-dim);font:inherit;letter-spacing:inherit;cursor:pointer}
+.motion-toggle:hover{color:var(--text)}
+.motion-toggle[aria-pressed="true"]{color:var(--text);border-color:var(--accent2)}
+html.motion-paused .flow-lines .drift-a,html.motion-paused .flow-lines .drift-b{animation-play-state:paused}
+html.motion-paused .brief-text .caret{animation:none}
+@media (pointer:coarse){.motion-toggle{min-height:44px}}
+@media (prefers-reduced-motion:reduce){.motion-toggle{display:none}}
 
 @media (scripting:enabled){.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}}
 .reveal.visible{opacity:1;transform:none}
@@ -451,6 +458,7 @@ h1, h2, h3 { text-wrap: balance; }
 <footer>
   <span>© 2026 tiny_flowlab · tiny_brain</span>
   <a href="/">tiny_flowlab home</a>
+  <button type="button" class="motion-toggle" aria-pressed="false"><span data-lang="ko">애니메이션 정지</span><span data-lang="en">Pause animations</span></button>
 </footer>
 
 <script>
@@ -464,6 +472,15 @@ try { const saved = localStorage.getItem('flowlab-lang'); if (saved) setLang(sav
 
 const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: .12 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+// 반복 장식 애니메이션 정지/재생(WCAG 2.2.2). 선택은 페이지 간 공유
+const motionBtn = document.querySelector('.motion-toggle');
+function setMotionPaused(paused) {
+  document.documentElement.classList.toggle('motion-paused', paused);
+  motionBtn.setAttribute('aria-pressed', String(paused));
+  try { localStorage.setItem('flowlab-motion', paused ? 'paused' : 'on'); } catch (e) {}
+}
+motionBtn.addEventListener('click', () => setMotionPaused(motionBtn.getAttribute('aria-pressed') !== 'true'));
+try { if (localStorage.getItem('flowlab-motion') === 'paused') setMotionPaused(true); } catch (e) {}
 </script>
 </body>
 </html>

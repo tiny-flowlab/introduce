@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const headerEl = document.createElement('h2');
                 headerEl.className = 'group-header';
                 headerEl.id = groupId;
+                headerEl.tabIndex = -1; // 월 바로가기에서 포커스를 받을 수 있게
                 headerEl.textContent = header;
                 track.appendChild(headerEl);
 
@@ -108,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const target = document.getElementById(group.id);
                     if (target) {
                         target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+                        // 키보드 사용자가 다음 Tab에서 그 달의 항목으로 이어가도록 포커스도 옮김
+                        target.focus({ preventScroll: true });
                     }
                 }, 50);
             });

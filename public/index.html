@@ -260,6 +260,13 @@
     .github-link svg { width: 17px; height: 17px; }
     footer { padding: 23px var(--gutter); border-top: 1px solid rgba(255,255,255,.07); text-align: center; color: var(--quiet); font-size: .68rem; letter-spacing: .035em; }
     footer p { margin: 0; }
+    .motion-toggle { margin-top: 10px; min-height: 24px; padding: 3px 12px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: transparent; color: var(--quiet); font: inherit; cursor: pointer; }
+    .motion-toggle:hover { color: var(--cyan); }
+    .motion-toggle[aria-pressed="true"] { color: var(--text); border-color: var(--cyan); }
+    html.motion-paused .flow-lines .drift-a, html.motion-paused .flow-lines .drift-b { animation-play-state: paused; }
+    html.motion-paused .agent-run::before { animation: none; }
+    @media (pointer: coarse) { .motion-toggle { min-height: 44px; } }
+    @media (prefers-reduced-motion: reduce) { .motion-toggle { display: none; } }
 
     @media (max-width: 900px) {
       .hero-main { grid-template-columns: minmax(0, 1fr) minmax(250px, .82fr); gap: 35px; }
@@ -544,7 +551,7 @@
     </section>
   </main>
 
-  <footer><p>&copy; 2026 tiny_flowlab. All rights reserved.</p></footer>
+  <footer><p>&copy; 2026 tiny_flowlab. All rights reserved.</p><button type="button" class="motion-toggle" aria-pressed="false"><span class="lang-inline" data-lang="ko" lang="ko">애니메이션 정지</span><span class="lang-inline" data-lang="en" lang="en">Pause animations</span></button></footer>
   <script>
     const languageButtons = document.querySelectorAll('[data-set-lang]');
     // 하위 페이지(shot_flow·tiny_brain)와 같은 키로 선택 언어를 공유한다
@@ -557,6 +564,15 @@
     }
     languageButtons.forEach((button) => button.addEventListener('click', () => setLanguage(button.dataset.setLang)));
     try { setLanguage(localStorage.getItem('flowlab-lang')); } catch (e) {}
+    // 반복 장식 애니메이션 정지/재생(WCAG 2.2.2). 선택은 페이지 간 공유
+    const motionBtn = document.querySelector('.motion-toggle');
+    function setMotionPaused(paused) {
+      document.documentElement.classList.toggle('motion-paused', paused);
+      motionBtn.setAttribute('aria-pressed', String(paused));
+      try { localStorage.setItem('flowlab-motion', paused ? 'paused' : 'on'); } catch (e) {}
+    }
+    motionBtn.addEventListener('click', () => setMotionPaused(motionBtn.getAttribute('aria-pressed') !== 'true'));
+    try { if (localStorage.getItem('flowlab-motion') === 'paused') setMotionPaused(true); } catch (e) {}
   </script>
 </body>
 </html>
