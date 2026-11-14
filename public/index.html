@@ -338,7 +338,16 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
+    /* 페이지 간 이동 시 크로스페이드(지원 브라우저만, 모션 줄이기 설정 존중) */
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition { navigation: auto; }
+    }
+    /* 여러 줄 제목의 줄 길이를 고르게 */
+    h1, h2, h3 { text-wrap: balance; }
   </style>
+<script type="speculationrules">
+{ "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
 </head>
 <body>
   <section class="hero" id="home" aria-labelledby="hero-title">

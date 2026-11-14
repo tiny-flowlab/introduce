@@ -234,7 +234,16 @@ h1,h2,h3,p,li{word-break:keep-all;overflow-wrap:break-word}
 @media (max-width:1000px){.principles{grid-template-columns:1fr 1fr}.problem,.status-box{grid-template-columns:1fr;gap:2rem}}
 @media (max-width:768px){.projects{grid-template-columns:1fr}.hp-desc{display:none}.quote br{display:none}}
 @media (max-width:480px){.principles{grid-template-columns:1fr}}
+/* 페이지 간 이동 시 크로스페이드(지원 브라우저만, 모션 줄이기 설정 존중) */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+/* 여러 줄 제목의 줄 길이를 고르게 */
+h1, h2, h3 { text-wrap: balance; }
 </style>
+<script type="speculationrules">
+{ "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
 </head>
 <body>
 

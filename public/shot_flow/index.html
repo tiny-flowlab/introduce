@@ -187,7 +187,16 @@ footer a:hover{color:var(--text)}
   .steps{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){.flow-lines g{animation:none}.reveal{opacity:1;transform:none;transition:none}.brief-text .caret{animation:none}}
+/* 페이지 간 이동 시 크로스페이드(지원 브라우저만, 모션 줄이기 설정 존중) */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+/* 여러 줄 제목의 줄 길이를 고르게 */
+h1, h2, h3 { text-wrap: balance; }
 </style>
+<script type="speculationrules">
+{ "prefetch": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+</script>
 </head>
 <body>
 
