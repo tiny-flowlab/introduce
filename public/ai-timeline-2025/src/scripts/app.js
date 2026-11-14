@@ -121,13 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let key = '';
 
             if (mode === 'month') {
-                key = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+                key = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' });
             } else if (mode === 'quarter') {
-                const q = Math.floor(date.getMonth() / 3) + 1;
-                key = `Q${q} ${date.getFullYear()}`;
+                const q = Math.floor(date.getUTCMonth() / 3) + 1;
+                key = `Q${q} ${date.getUTCFullYear()}`;
             } else if (mode === 'half') {
-                const h = date.getMonth() < 6 ? 'H1' : 'H2';
-                key = `${h} ${date.getFullYear()}`;
+                const h = date.getUTCMonth() < 6 ? 'H1' : 'H2';
+                key = `${h} ${date.getUTCFullYear()}`;
             }
 
             if (!groups[key]) groups[key] = [];
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         items.forEach(item => {
             const itemDate = new Date(item.date);
-            const itemMonth = itemDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+            const itemMonth = itemDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' });
 
             // Insert divider when month changes
             if (lastMonth !== null && lastMonth !== itemMonth) {
@@ -232,11 +232,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // closedby="any" 미지원 브라우저(Safari)용 바깥 클릭 닫기
     if (!('closedBy' in HTMLDialogElement.prototype)) {
-        modal.addEventListener('click', (e) => {
-            if (e.target !== modal) return;
+        // 모달 안에서 누르고 밖에서 놓는 드래그(텍스트 선택 등)로 닫히지 않도록 누름·놓음 위치를 모두 확인
+        const isBackdrop = (e) => {
+            if (e.target !== modal) return false;
             const r = modal.getBoundingClientRect();
-            const inside = r.top <= e.clientY && e.clientY <= r.bottom && r.left <= e.clientX && e.clientX <= r.right;
-            if (!inside) modal.close();
+            return !(r.top <= e.clientY && e.clientY <= r.bottom && r.left <= e.clientX && e.clientX <= r.right);
+        };
+        let pressedOnBackdrop = false;
+        modal.addEventListener('pointerdown', (e) => { pressedOnBackdrop = isBackdrop(e); });
+        modal.addEventListener('click', (e) => {
+            if (pressedOnBackdrop && isBackdrop(e)) modal.close();
+            pressedOnBackdrop = false;
         });
     }
 
@@ -249,13 +255,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'hardware': '#f472b6', // Pink
             'tool': '#22d3ee', // Cyan
             'news': '#c084fc', // Purple
-            'benchmark': '#4ade80' // Green
+            'benchmark': '#4ade80', // Green
+            'platform': '#facc15' // Yellow
         };
         return colors[type] || '#ffffff';
     }
 
     function formatDate(dateStr) {
-        const options = { month: 'short', day: 'numeric' }; // Concise date for mobile
+        const options = { month: 'short', day: 'numeric', timeZone: 'UTC' }; // Concise date for mobile; YYYY-MM-DD는 UTC 자정으로 파싱되므로 UTC로 표시
         return new Date(dateStr).toLocaleDateString('en-US', options);
     }
 
